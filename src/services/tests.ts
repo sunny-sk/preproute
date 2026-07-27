@@ -1,6 +1,6 @@
 import { api, USER_AUTH_KEY } from "@/config"
 import { URLS } from "@/config"
-import type { SubjectResponse, TopicResponse } from "@/types"
+import type { SubjectResponse, SubTopicResponse, TestResponse, TopicResponse } from "@/types"
 
 const getToken = () => {
   const res = localStorage.getItem(USER_AUTH_KEY)
@@ -32,11 +32,22 @@ export const getTopicsApi = async (subjectId: string) => {
 }
 
 export const getSubTopicsApi = async (topicId: string) => {
-  const response = await api.get(URLS.SUB_TOPICS.replace(":topicId", topicId))
+  const response = await api.get<SubTopicResponse>(
+    URLS.SUB_TOPICS.replace(":topicId", topicId),
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  )
   return response.data
 }
 
 export const getAllTestsApi = async () => {
-  const response = await api.get(URLS.ALL_TESTS)
+  const response = await api.get<TestResponse>(URLS.ALL_TESTS, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  })
   return response.data
 }
