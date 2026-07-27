@@ -1,5 +1,16 @@
 export type ApiStatus = "success" | "error"
 
+export type TestStatus =
+  | "published"
+  | "draft"
+  | "live"
+  | "archived"
+  | "published"
+  | "expired"
+  | "no-status"
+  | "unpublished"
+  | "scheduled"
+
 /** Shared envelope for all API responses. `T` is the shape of `data`. */
 export type ApiResponse<T> = {
   status: ApiStatus
@@ -47,7 +58,6 @@ export type SubTopicResponse = ApiResponse<
 >
 export type TestType = "chapterwise" | "pyq" | "mock"
 export type TestDifficulty = "easy" | "medium" | "difficult"
-export type TestStatus = "draft" | "published" | "scheduled" | "archived"
 
 export type Test = {
   id: string
@@ -67,9 +77,9 @@ export type Test = {
   slot: string | null
   hidden_from_moderator: boolean | null
   created_by: number
-  created_at: string 
+  created_at: string
   updated_by: number
-  updated_at: string 
+  updated_at: string
   paragraph_question: string | null
   status: TestStatus
   scheduled_date: string | null
