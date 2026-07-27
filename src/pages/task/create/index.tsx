@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,6 +16,7 @@ import StepperInput from "@/components/stepper-input"
 import { DIFFICULTY_LEVELS, SUB_TOPICS, SUBJECTS, TOPICS } from "@/constant"
 import Breadcrum from "../../../components/breadcrum"
 import Tabs from "./components/tabs"
+import { getSubjectsApi } from "@/services/tests"
 
 
 
@@ -29,14 +30,32 @@ const controlClass =
 
 
 const TaskCreate = () => {
-
   const [difficulty, setDifficulty] = useState("easy")
   const [wrongAnswer, setWrongAnswer] = useState(-1)
   const [unattempted, setUnattempted] = useState(0)
   const [correctAnswer, setCorrectAnswer] = useState(5)
   const [noOfQuestions, setNoOfQuestions] = useState("")
 
+
   const totalMarks = noOfQuestions ? Number(noOfQuestions) * correctAnswer : 0
+
+
+
+  const init = async () => {
+    const response = await getSubjectsApi()
+    console.log(response)
+  }
+  
+  useEffect(() => {
+    init()
+    return () => {
+    }
+  }, [])
+
+
+
+
+
 
   return (
     <div className="border-[#eef2fb] bg-white p-8">
