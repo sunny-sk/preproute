@@ -7,55 +7,55 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Skeleton } from "@/components/ui/skeleton"
-import type { TopicResponse } from '@/types'
-import { getTopicsApi } from '@/services/tests'
+import type { SubTopicResponse } from '@/types'
+import { getSubTopicsApi } from '@/services/tests'
 
 interface TopicProps {
   labelClass: string
   controlClass: string
   onChange?: (topicId: string | null) => void
-  subjectId: string | null
+  topicId: string | null
 }
 
-const Topic = ({ labelClass, controlClass, onChange = () => { }, subjectId = null }: TopicProps) => {
-  const [topics, setTopics] = useState<TopicResponse["data"]>([]);
+const Topic = ({ labelClass, controlClass, onChange = () => { }, topicId = null }: TopicProps) => {
+  const [subTopics, setSubTopics] = useState<SubTopicResponse["data"]>([]);
   const [loading, setLoading] = useState(false);
 
   const init = async () => {
-    if (!subjectId) return;
+    if (!topicId) return;
     setLoading(true)
-    const response = await getTopicsApi(subjectId as string)
+    const response = await getSubTopicsApi(topicId as string)
     if (response.status === "success") {
-      setTopics(response.data)
+      setSubTopics(response.data)
     }
     setLoading(false)
   }
 
   useEffect(() => {
     init()
-  }, [subjectId])
+  }, [topicId])
 
   return (
     <div>
-      <label htmlFor="topic" className={labelClass}>
-        Topic
+      <label htmlFor="subTopic" className={labelClass}>
+        Sub Topic
       </label>
       {loading ? (
         <Skeleton className={controlClass} />
       ) : (
-        <Select onValueChange={(topicName: string | null) => {
-          const topicId = topicName
-            ? topics.find((topic) => topic.name === topicName)?.id ?? null
+        <Select onValueChange={(subTopicName: string | null) => {
+          const subTopicId = subTopicName
+            ? subTopics.find((subTopic) => subTopic.name === subTopicName)?.id ?? null
             : null
-          onChange(topicId)
+          onChange(subTopicId)
         }}>
-          <SelectTrigger id="topic" className={controlClass}>
+          <SelectTrigger id="subTopic" className={controlClass}>
             <SelectValue placeholder="Choose from Drop-down" />
           </SelectTrigger>
           <SelectContent>
-            {topics.map((topic) => (
-              <SelectItem key={topic.id} value={topic.name}>
-                {topic.name}
+            {subTopics.map((subTopic) => (
+              <SelectItem key={subTopic.id} value={subTopic.name}>
+                {subTopic.name}
               </SelectItem>
             ))}
           </SelectContent>

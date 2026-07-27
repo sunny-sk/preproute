@@ -13,11 +13,12 @@ import {
 
 
 import StepperInput from "@/components/stepper-input"
-import { DIFFICULTY_LEVELS, SUB_TOPICS } from "@/constant"
+import { DIFFICULTY_LEVELS } from "@/constant"
 import Breadcrum from "../../../components/breadcrum"
 import Tabs from "./components/tabs"
 import Subjects from "@/components/subjects"
 import Topic from "@/components/topic"
+import SubTopics from "@/components/sub-topics"
 
 
 
@@ -38,7 +39,7 @@ const TaskCreate = () => {
   const [noOfQuestions, setNoOfQuestions] = useState("")
   const [subjectId, setSubjectId] = useState<string | null>(null)
   const [topicId, setTopicId] = useState<string | null>(null)
-
+  const [subTopicId, setSubTopicId] = useState<string | null>(null)
   const totalMarks = noOfQuestions ? Number(noOfQuestions) * correctAnswer : 0
 
 
@@ -77,23 +78,7 @@ const TaskCreate = () => {
           <Topic labelClass={labelClass} controlClass={controlClass} onChange={setTopicId} subjectId={subjectId} />
 
           {/* Sub Topic */}
-          <div>
-            <label htmlFor="subTopic" className={labelClass}>
-              Sub Topic
-            </label>
-            <Select>
-              <SelectTrigger id="subTopic" className={controlClass}>
-                <SelectValue placeholder="Choose from Drop-down" />
-              </SelectTrigger>
-              <SelectContent>
-                {SUB_TOPICS.map((subTopic) => (
-                  <SelectItem key={subTopic} value={subTopic}>
-                    {subTopic}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <SubTopics labelClass={labelClass} controlClass={controlClass} onChange={setSubTopicId} topicId={topicId} />
 
           {/* Duration */}
           <div>
