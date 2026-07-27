@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,10 +13,11 @@ import {
 
 
 import StepperInput from "@/components/stepper-input"
-import { DIFFICULTY_LEVELS, SUB_TOPICS, SUBJECTS, TOPICS } from "@/constant"
+import { DIFFICULTY_LEVELS, SUB_TOPICS } from "@/constant"
 import Breadcrum from "../../../components/breadcrum"
 import Tabs from "./components/tabs"
-import { getSubjectsApi } from "@/services/tests"
+import Subjects from "@/components/subjects"
+import Topic from "@/components/topic"
 
 
 
@@ -35,23 +36,10 @@ const TaskCreate = () => {
   const [unattempted, setUnattempted] = useState(0)
   const [correctAnswer, setCorrectAnswer] = useState(5)
   const [noOfQuestions, setNoOfQuestions] = useState("")
-
+  const [subjectId, setSubjectId] = useState<string | null>(null)
+  const [topicId, setTopicId] = useState<string | null>(null)
 
   const totalMarks = noOfQuestions ? Number(noOfQuestions) * correctAnswer : 0
-
-
-
-  const init = async () => {
-    const response = await getSubjectsApi()
-    console.log(response)
-  }
-  
-  useEffect(() => {
-    init()
-    return () => {
-    }
-  }, [])
-
 
 
 
@@ -75,23 +63,7 @@ const TaskCreate = () => {
       <form className="mt-8">
         <div className="grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-2">
           {/* Subject */}
-          <div>
-            <label htmlFor="subject" className={labelClass}>
-              Subject
-            </label>
-            <Select>
-              <SelectTrigger id="subject" className={controlClass}>
-                <SelectValue placeholder="Choose from Drop-down" />
-              </SelectTrigger>
-              <SelectContent>
-                {SUBJECTS.map((subject) => (
-                  <SelectItem key={subject} value={subject}>
-                    {subject}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <Subjects labelClass={labelClass} controlClass={controlClass} onChange={setSubjectId} />
 
           {/* Name of Test */}
           <div>
@@ -102,23 +74,7 @@ const TaskCreate = () => {
           </div>
 
           {/* Topic */}
-          <div>
-            <label htmlFor="topic" className={labelClass}>
-              Topic
-            </label>
-            <Select>
-              <SelectTrigger id="topic" className={controlClass}>
-                <SelectValue placeholder="Choose from Drop-down" />
-              </SelectTrigger>
-              <SelectContent>
-                {TOPICS.map((topic) => (
-                  <SelectItem key={topic} value={topic}>
-                    {topic}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <Topic labelClass={labelClass} controlClass={controlClass} onChange={setTopicId} subjectId={subjectId} />
 
           {/* Sub Topic */}
           <div>

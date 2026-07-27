@@ -28,3 +28,12 @@ export type SubjectResponse = {
     updated_at: string
   }[]
 }
+export type TopicResponse = {
+  status: "success" | "error"
+  message: string
+  data: {
+    id: string
+    name: string
+    subject_id: string
+  }[]
+}
