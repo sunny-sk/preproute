@@ -1,12 +1,7 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 import { USER_AUTH_KEY } from "@/config"
-
-interface User {
-  id: string
-  name: string
-  email: string
-}
+import type { User } from "@/types"
 
 interface UserStore {
   user: User | null

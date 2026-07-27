@@ -5,6 +5,21 @@ export const logout = () => {
   window.location.href = "/login"
 }
 
+export const getSafeRedirectPath = (
+  raw: string | null,
+  fallback = "/task/create"
+) => {
+  if (!raw) return fallback
+  let decoded: string
+  try {
+    decoded = decodeURIComponent(raw)
+  } catch {
+    return fallback
+  }
+  if (!decoded.startsWith("/") || decoded.startsWith("//")) return fallback
+  return decoded
+}
+
 /** Formats an ISO date string (e.g. "2026-07-18") as "18 Jul 2026". */
 export const formatDate = (isoDate: string) => {
   const date = new Date(isoDate)

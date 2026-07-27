@@ -5,20 +5,25 @@ import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/toast"
 import { loginApi } from "@/services/auth"
 import useUser from "@/store/useUser"
+import { getSafeRedirectPath } from "@/utils/helper"
 import { loginSchema, type LoginFormSchema } from "@/validations"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
-import { useNavigate } from "react-router"
+import { useNavigate, useSearchParams } from "react-router"
 import { useShallow } from "zustand/react/shallow"
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = getSafeRedirectPath(searchParams.get("redirect"));
   const { setToken, setUser } = useUser(useShallow((s) => {
     return {
       setToken: s.setToken,
       setUser: s.setUser,
     }
   }))
+
+
   const form = useForm<LoginFormSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -32,7 +37,7 @@ const LoginPage = () => {
       if (response.status === 'success') {
         setToken(response.data.token)
         setUser(response.data.user)
-        navigate('/task/create')
+        navigate(redirectTo, { replace: true })
       }
     } catch (error) {
       const errorResponse = error.response?.data;
@@ -72,7 +77,7 @@ const LoginPage = () => {
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
                         <FieldLabel className="text-sm font-medium text-[#374151]" htmlFor="userId">
-                          Bug Title
+                          User ID
                         </FieldLabel>
                         <Input
                           {...field}

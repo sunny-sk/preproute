@@ -5,7 +5,6 @@ export type TestStatus =
   | "draft"
   | "live"
   | "archived"
-  | "published"
   | "expired"
   | "no-status"
   | "unpublished"
@@ -18,19 +17,20 @@ export type ApiResponse<T> = {
   data: T
 }
 
+export type User = {
+  endDate: string
+  id: string
+  joiningDate: string
+  lastActive: string
+  name: string
+  payment: boolean
+  phone: string
+  role: "admin" | "moderator" | "user"
+  subrole: string
+  userId: string
+}
 export type UserResponse = ApiResponse<{
-  user: {
-    endDate: string
-    id: string
-    joiningDate: string
-    lastActive: string
-    name: string
-    payment: boolean
-    phone: string
-    role: "admin" | "moderator" | "user"
-    subrole: string
-    userId: string
-  }
+  user: User
   token: string
 }>
 
