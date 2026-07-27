@@ -29,7 +29,7 @@ const SECONDARY_SIDEBAR_WIDTH = "w-[210px]"
 
 const TaskLayout = () => {
   const { pathname } = useLocation()
-  const isSecondarySidebarVisible = pathname.startsWith("/task/create")
+  const isSecondarySidebarVisible = false;
   const leftPanelWidthClass = isSecondarySidebarVisible ? "w-[298px]" : PRIMARY_EXPANDED_SIDEBAR_WIDTH
 
   return (
@@ -98,7 +98,7 @@ const TaskLayout = () => {
       <main className="flex min-h-screen flex-1 flex-col bg-[#f8faff]">
         <Header />
 
-        <div className="flex-1 overflow-auto p-6">
+        <div className="flex-1 overflow-auto">
           <Outlet />
         </div>
       </main>

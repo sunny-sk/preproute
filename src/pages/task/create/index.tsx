@@ -1,8 +1,217 @@
+import { useState } from "react"
+
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+
+import StepperInput from "@/components/stepper-input"
+import { DIFFICULTY_LEVELS, SUB_TOPICS, SUBJECTS, TOPICS } from "@/constant"
+import Breadcrum from "../../../components/breadcrum"
+import Tabs from "./components/tabs"
+
+
+
+
+const labelClass = "mb-2 block text-sm font-medium text-[#33415c]"
+const controlClass =
+  "h-12 w-full rounded-lg border-[#e4e9f4] px-4 text-sm text-[#33415c] shadow-none placeholder:text-[#9aa6be] focus-visible:ring-2 data-[size=default]:h-12"
+
+
+
+
+
 const TaskCreate = () => {
+
+  const [difficulty, setDifficulty] = useState("easy")
+  const [wrongAnswer, setWrongAnswer] = useState(-1)
+  const [unattempted, setUnattempted] = useState(0)
+  const [correctAnswer, setCorrectAnswer] = useState(5)
+  const [noOfQuestions, setNoOfQuestions] = useState("")
+
+  const totalMarks = noOfQuestions ? Number(noOfQuestions) * correctAnswer : 0
+
   return (
-    <div className="rounded-xl border border-dashed border-[#d8e1f4] bg-white p-8">
-      <h1 className="text-xl font-semibold text-[#24324b]">Test Creation</h1>
-      <p className="mt-2 text-sm text-[#68758f]">Creation form content will be implemented here.</p>
+    <div className="border-[#eef2fb] bg-white p-8">
+      {/* Breadcrumb */}
+      <Breadcrum
+        items={[
+          { label: "Test Creation" },
+          { label: "Create Test" },
+          { label: "Chapter Wise" },
+        ]}
+      />
+
+      {/* Tabs */}
+      <Tabs />
+
+      {/* Form */}
+      <form className="mt-8">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-2">
+          {/* Subject */}
+          <div>
+            <label htmlFor="subject" className={labelClass}>
+              Subject
+            </label>
+            <Select>
+              <SelectTrigger id="subject" className={controlClass}>
+                <SelectValue placeholder="Choose from Drop-down" />
+              </SelectTrigger>
+              <SelectContent>
+                {SUBJECTS.map((subject) => (
+                  <SelectItem key={subject} value={subject}>
+                    {subject}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Name of Test */}
+          <div>
+            <label htmlFor="testName" className={labelClass}>
+              Name of Test
+            </label>
+            <Input id="testName" type="text" placeholder="Enter name of Test" className={controlClass} />
+          </div>
+
+          {/* Topic */}
+          <div>
+            <label htmlFor="topic" className={labelClass}>
+              Topic
+            </label>
+            <Select>
+              <SelectTrigger id="topic" className={controlClass}>
+                <SelectValue placeholder="Choose from Drop-down" />
+              </SelectTrigger>
+              <SelectContent>
+                {TOPICS.map((topic) => (
+                  <SelectItem key={topic} value={topic}>
+                    {topic}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Sub Topic */}
+          <div>
+            <label htmlFor="subTopic" className={labelClass}>
+              Sub Topic
+            </label>
+            <Select>
+              <SelectTrigger id="subTopic" className={controlClass}>
+                <SelectValue placeholder="Choose from Drop-down" />
+              </SelectTrigger>
+              <SelectContent>
+                {SUB_TOPICS.map((subTopic) => (
+                  <SelectItem key={subTopic} value={subTopic}>
+                    {subTopic}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Duration */}
+          <div>
+            <label htmlFor="duration" className={labelClass}>
+              Duration (Minutes)
+            </label>
+            <Input id="duration" type="number" min={0} placeholder="Enter the time" className={controlClass} />
+          </div>
+
+          {/* Test Difficulty Level */}
+          <div>
+            <span className={labelClass}>Test Difficulty Level</span>
+            <RadioGroup
+              value={difficulty}
+              onValueChange={(value) => setDifficulty(value as string)}
+              className="flex flex-row items-center gap-10 pt-3"
+            >
+              {DIFFICULTY_LEVELS.map((level) => (
+                <label
+                  key={level.id}
+                  className="flex cursor-pointer items-center gap-2 text-sm text-[#33415c]"
+                >
+                  <RadioGroupItem value={level.id} />
+                  {level.label}
+                </label>
+              ))}
+            </RadioGroup>
+          </div>
+        </div>
+
+        {/* Marking Scheme */}
+        <h2 className="mt-8 text-sm font-medium text-[#33415c]">Marking Scheme:</h2>
+        <div className="mt-4 grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-2">
+          <div className="flex flex-wrap gap-6">
+            <div>
+              <span className={labelClass}>Wrong Answer</span>
+              <StepperInput id="wrong-answer" value={wrongAnswer} onChange={setWrongAnswer} />
+            </div>
+            <div>
+              <span className={labelClass}>Unattempted</span>
+              <StepperInput id="unattempted" value={unattempted} onChange={setUnattempted} />
+            </div>
+            <div>
+              <span className={labelClass}>Correct Answer</span>
+              <StepperInput id="correct-answer" value={correctAnswer} onChange={setCorrectAnswer} />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="noOfQuestions" className={labelClass}>
+                No of Questions
+              </label>
+              <Input
+                id="noOfQuestions"
+                type="number"
+                min={0}
+                value={noOfQuestions}
+                onChange={(event) => setNoOfQuestions(event.target.value)}
+                placeholder="Ex:250 Marks"
+                className={controlClass}
+              />
+            </div>
+            <div>
+              <label htmlFor="totalMarks" className={labelClass}>
+                Total Marks
+              </label>
+              <Input
+                id="totalMarks"
+                type="text"
+                readOnly
+                value={totalMarks ? `${totalMarks}` : ""}
+                placeholder="Ex:250 Marks"
+                className={`${controlClass} bg-[#f8faff] text-[#9aa6be]`}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="mt-10 flex justify-end gap-3">
+          <Button
+            type="button"
+            variant="ghost"
+            className="h-11 rounded-lg bg-[#f1f3fc] px-8 text-sm font-medium text-[#7581a0] hover:bg-[#e8ecf9]"
+          >
+            Cancel
+          </Button>
+          <Button type="submit" className="h-11 rounded-lg px-10 text-sm font-medium">
+            Next
+          </Button>
+        </div>
+      </form>
     </div>
   )
 }
