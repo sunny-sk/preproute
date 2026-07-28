@@ -17,6 +17,14 @@ export type ApiResponse<T> = {
   data: T
 }
 
+export const TestType = {
+  CHAPTERWISE: "chapterwise",
+  PYQ: "pyq",
+  MOCK: "mock",
+} as const
+
+export type TestType = (typeof TestType)[keyof typeof TestType]
+
 export type User = {
   endDate: string
   id: string
@@ -56,7 +64,6 @@ export type SubTopicResponse = ApiResponse<
     topic_id: string
   }[]
 >
-export type TestType = "chapterwise" | "pyq" | "mock"
 export type TestDifficulty = "easy" | "medium" | "difficult"
 
 export type Test = {
@@ -86,4 +93,4 @@ export type Test = {
   expiry_date: string | null
 }
 
-export type TestResponse = ApiResponse<Test[]>
+export type TestResponse = ApiResponse<Test>

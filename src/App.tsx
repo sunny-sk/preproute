@@ -12,6 +12,7 @@ export function App() {
   return (
     <>
       <Routes>
+        <Route index element={<Navigate to="/task/create" replace />} />
         <Route path="/login" element={<Login />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/task" element={<TaskLayout />}>

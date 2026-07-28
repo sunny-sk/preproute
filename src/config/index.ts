@@ -7,6 +7,7 @@ export const URLS = {
   TOPICS: `/topics/subject/:subjectId`, // `/topics/subject/:subjectId`
   SUB_TOPICS: `/sub-topics/topic/:topicId`, // `/subtopics/topic/:topicId`
   ALL_TESTS: `/tests`,
+  CREATE_TEST: `/tests`,
 }
 
 export const USER_AUTH_KEY =

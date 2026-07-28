@@ -9,60 +9,76 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import type { SubTopicResponse } from '@/types'
 import { getSubTopicsApi } from '@/services/tests'
+import { Field, FieldError, FieldLabel } from './ui/field'
+import type { FieldErrors } from 'react-hook-form'
 
-interface TopicProps {
+interface SubTopicsProps {
   labelClass: string
   controlClass: string
-  onChange?: (topicId: string | null) => void
-  topicId: string | null
+  onChange?: (subTopicIds: string[]) => void
+  value?: string[]
+  topicIds: string[]
+  dataInvalid?: boolean
+  errors?: FieldErrors<{ subTopicId: string[] }>
 }
 
-const Topic = ({ labelClass, controlClass, onChange = () => { }, topicId = null }: TopicProps) => {
+const SubTopics = ({ labelClass, controlClass, onChange = () => { }, value = [], topicIds = [], dataInvalid, errors }: SubTopicsProps) => {
   const [subTopics, setSubTopics] = useState<SubTopicResponse["data"]>([]);
   const [loading, setLoading] = useState(false);
 
   const init = async () => {
-    if (!topicId) return;
-    setLoading(true)
-    const response = await getSubTopicsApi(topicId as string)
-    if (response.status === "success") {
-      setSubTopics(response.data)
+    if (!topicIds.length) {
+      setSubTopics([])
+      return
     }
+    setLoading(true)
+    const responses = await Promise.all(topicIds.map((topicId) => getSubTopicsApi(topicId)))
+    const merged = responses
+      .filter((response) => response.status === "success")
+      .flatMap((response) => response.data)
+    // Different topics may share sub-topics, so dedupe by id.
+    const unique = Array.from(new Map(merged.map((subTopic) => [subTopic.id, subTopic])).values())
+    setSubTopics(unique)
     setLoading(false)
   }
 
   useEffect(() => {
     init()
-  }, [topicId])
+  }, [topicIds])
 
   return (
-    <div>
-      <label htmlFor="subTopic" className={labelClass}>
+    <Field data-invalid={dataInvalid}>
+      <FieldLabel htmlFor="subTopic" className={labelClass}>
         Sub Topic
-      </label>
+      </FieldLabel>
       {loading ? (
         <Skeleton className={controlClass} />
       ) : (
-        <Select onValueChange={(subTopicName: string | null) => {
-          const subTopicId = subTopicName
-            ? subTopics.find((subTopic) => subTopic.name === subTopicName)?.id ?? null
-            : null
-          onChange(subTopicId)
-        }}>
-          <SelectTrigger id="subTopic" className={controlClass}>
-            <SelectValue placeholder="Choose from Drop-down" />
+        <Select multiple value={value} onValueChange={(subTopicIds: string[]) => onChange(subTopicIds)}>
+          <SelectTrigger id="subTopic" className={controlClass} aria-invalid={dataInvalid}>
+            <SelectValue placeholder="Choose from Drop-down">
+              {(selected: string[]) =>
+                selected.length
+                  ? subTopics
+                    .filter((subTopic) => selected.includes(subTopic.id))
+                    .map((subTopic) => subTopic.name)
+                    .join(", ")
+                  : "Choose from Drop-down"
+              }
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             {subTopics.map((subTopic) => (
-              <SelectItem key={subTopic.id} value={subTopic.name}>
+              <SelectItem key={subTopic.id} value={subTopic.id}>
                 {subTopic.name}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       )}
-    </div>
+      {errors?.subTopicId && <FieldError errors={[errors.subTopicId]} />}
+    </Field>
   )
 }
 
-export default React.memo(Topic)
+export default React.memo(SubTopics)

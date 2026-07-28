@@ -9,15 +9,20 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import type { TopicResponse } from '@/types'
 import { getTopicsApi } from '@/services/tests'
+import type { FieldErrors } from 'react-hook-form'
+import { Field, FieldLabel, FieldError } from './ui/field'
 
 interface TopicProps {
   labelClass: string
   controlClass: string
-  onChange?: (topicId: string | null) => void
+  onChange?: (topicIds: string[]) => void
+  value?: string[]
   subjectId: string | null
+  dataInvalid?: boolean
+  errors?: FieldErrors<{ topicId: string[] }>
 }
 
-const Topic = ({ labelClass, controlClass, onChange = () => { }, subjectId = null }: TopicProps) => {
+const Topic = ({ labelClass, controlClass, onChange = () => { }, value = [], subjectId = null, dataInvalid, errors, ...props }: TopicProps) => {
   const [topics, setTopics] = useState<TopicResponse["data"]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -36,32 +41,39 @@ const Topic = ({ labelClass, controlClass, onChange = () => { }, subjectId = nul
   }, [subjectId])
 
   return (
-    <div>
-      <label htmlFor="topic" className={labelClass}>
+    <Field data-invalid={dataInvalid} >
+      <FieldLabel htmlFor="topic" className={labelClass}>
         Topic
-      </label>
+      </FieldLabel>
       {loading ? (
         <Skeleton className={controlClass} />
       ) : (
-        <Select onValueChange={(topicName: string | null) => {
-          const topicId = topicName
-            ? topics.find((topic) => topic.name === topicName)?.id ?? null
-            : null
-          onChange(topicId)
-        }}>
-          <SelectTrigger id="topic" className={controlClass}>
-            <SelectValue placeholder="Choose from Drop-down" />
+        <Select multiple value={value} onValueChange={(topicIds: string[]) => onChange(topicIds)}>
+          <SelectTrigger id="topic" className={controlClass} aria-invalid={dataInvalid}>
+            <SelectValue placeholder="Choose from Drop-down">
+              {(selected: string[]) =>
+                selected.length
+                  ? topics
+                    .filter((topic) => selected.includes(topic.id))
+                    .map((topic) => topic.name)
+                    .join(", ")
+                  : "Choose from Drop-down"
+              }
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             {topics.map((topic) => (
-              <SelectItem key={topic.id} value={topic.name}>
+              <SelectItem key={topic.id} value={topic.id}>
                 {topic.name}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       )}
-    </div>
+      {errors?.topicId && (
+        <FieldError errors={[errors.topicId]} />
+      )}
+    </Field>
   )
 }
 

@@ -1,13 +1,12 @@
-import { useState } from "react"
+import { TestType } from "@/types"
 const TABS = [
-  { id: "chapterwise", label: "Chapterwise" },
-  { id: "pyq", label: "PYQ" },
-  { id: "mock", label: "Mock Test" },
+  { id: TestType.CHAPTERWISE, label: "Chapterwise" },
+  { id: TestType.PYQ, label: "PYQ" },
+  { id: TestType.MOCK, label: "Mock Test" },
 ] as const
-type TabId = (typeof TABS)[number]["id"]
 
-const Tabs = () => {
-  const [activeTab, setActiveTab] = useState<TabId>("chapterwise")
+
+const TestTypeInput = ({ activeTab, setActiveTab }: { activeTab: TestType, setActiveTab: (tab: TestType) => void }) => {
   return (
     <div className="mt-6 inline-flex gap-1 rounded-xl border border-[#e4e9f4] p-1">
       {TABS.map((tab) => {
@@ -31,4 +30,4 @@ const Tabs = () => {
   )
 }
 
-export default Tabs
+export default TestTypeInput

@@ -9,14 +9,18 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import type { SubjectResponse } from '@/types'
 import { getSubjectsApi } from '@/services/tests'
+import type { FieldErrors } from 'react-hook-form'
+import { Field, FieldError, FieldLabel } from './ui/field'
 
 interface SubjectsProps {
   labelClass: string
   controlClass: string
   onChange?: (subjectId: string | null) => void
+  dataInvalid?: boolean
+  errors?: FieldErrors<{ subjectId: string | null }>
 }
 
-const Subjects = ({ labelClass, controlClass, onChange = () => { } }: SubjectsProps) => {
+const Subjects = ({ labelClass, controlClass, onChange = () => { }, dataInvalid, errors, ...props }: SubjectsProps) => {
   const [subjects, setSubjects] = useState<SubjectResponse["data"]>([])
   const [loading, setLoading] = useState(true);
 
@@ -34,10 +38,10 @@ const Subjects = ({ labelClass, controlClass, onChange = () => { } }: SubjectsPr
   }, [])
 
   return (
-    <div>
-      <label htmlFor="subject" className={labelClass}>
+    <Field data-invalid={dataInvalid} >
+      <FieldLabel htmlFor="subject" className={labelClass}>
         Subject
-      </label>
+      </FieldLabel>
       {loading ? (
         <Skeleton className={controlClass} />
       ) : (
@@ -47,7 +51,7 @@ const Subjects = ({ labelClass, controlClass, onChange = () => { } }: SubjectsPr
             : null
           onChange(subjectId)
         }}>
-          <SelectTrigger id="subject" className={controlClass}>
+          <SelectTrigger id="subject" className={controlClass} aria-invalid={dataInvalid}>
             <SelectValue placeholder="Choose from Drop-down" />
           </SelectTrigger>
           <SelectContent>
@@ -59,7 +63,8 @@ const Subjects = ({ labelClass, controlClass, onChange = () => { } }: SubjectsPr
           </SelectContent>
         </Select>
       )}
-    </div>
+      {errors?.subjectId && <FieldError errors={[errors.subjectId]} />}
+    </Field>
   )
 }
 
