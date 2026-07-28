@@ -6,6 +6,7 @@ import ProtectedRoute from "@/guards/protected-route";
 import TaskLayout from "./pages/prepTests/layout";
 import TaskDashboard from "./pages/prepTests/dashboard";
 import TaskCreate from "./pages/prepTests/create";
+import TaskEdit from "./pages/prepTests/edit";
 import TaskTracking from "./pages/prepTests/tracking";
 
 export function App() {
@@ -19,6 +20,7 @@ export function App() {
             <Route index element={<Navigate to="/task/create" replace />} />
             <Route path="dashboard" element={<TaskDashboard />} />
             <Route path="create" element={<TaskCreate />} />
+            <Route path=":id/edit" element={<TaskEdit />} />
             <Route path="tracking" element={<TaskTracking />} />
           </Route>
         </Route>

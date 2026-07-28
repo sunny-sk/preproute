@@ -20,7 +20,7 @@ import { createTestValidationSchema, type CreateTest, type CreateTestPayload } f
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader } from "lucide-react"
-import { useNavigate } from "react-router"
+import { useNavigate, useParams } from "react-router"
 
 
 
@@ -31,7 +31,8 @@ const controlClass =
 
 
 
-const TaskCreate = () => {
+const TaskEdit = () => {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -401,7 +402,7 @@ const TaskCreate = () => {
             disabled={isSubmitting}
             className="h-11 rounded-lg px-10 text-sm font-medium"
           >
-            {isSubmitting && <Loader size={20} />} Next
+            {isSubmitting && <Loader size={20} />} Save
           </Button>
         </div>
       </form>
@@ -409,4 +410,4 @@ const TaskCreate = () => {
   )
 }
 
-export default TaskCreate
+export default TaskEdit

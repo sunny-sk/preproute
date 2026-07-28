@@ -2,6 +2,7 @@ import { Eye, Pencil, Trash2 } from 'lucide-react'
 import StatusBadge from './status-badge'
 import type { Test } from '@/types'
 import { formatDate } from '@/utils/helper'
+import { Link } from 'react-router'
 
 const TRow = ({ test }: { test: Test }) => {
   return (
@@ -24,11 +25,9 @@ const TRow = ({ test }: { test: Test }) => {
           }}>
             <Eye size={16} />
           </RowAction>
-          <RowAction label="Edit" onClick={() => {
-
-          }}>
+          <Link to={`/task/${test.id}/edit`} >
             <Pencil size={16} />
-          </RowAction>
+          </Link>
           <RowAction label="Delete" variant="danger" onClick={() => {
 
           }}>
