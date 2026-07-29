@@ -8,19 +8,21 @@ import TaskDashboard from "./pages/prepTests/dashboard"
 import TaskCreate from "./pages/prepTests/create"
 import TaskEdit from "./pages/prepTests/edit"
 import TaskTracking from "./pages/prepTests/tracking"
+import TaskQuestions from "./pages/prepTests/questions"
 
 export function App() {
   return (
     <>
       <Routes>
-        <Route index element={<Navigate to="/task/create" replace />} />
+        <Route index element={<Navigate to="/test/create" replace />} />
         <Route path="/login" element={<Login />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/task" element={<TaskLayout />}>
-            <Route index element={<Navigate to="/task/create" replace />} />
+          <Route path="/test" element={<TaskLayout />}>
+            <Route index element={<Navigate to="/test/create" replace />} />
             <Route path="dashboard" element={<TaskDashboard />} />
             <Route path="create" element={<TaskCreate />} />
             <Route path=":id/edit" element={<TaskEdit />} />
+            <Route path=":id/questions" element={<TaskQuestions />} />
             <Route path="tracking" element={<TaskTracking />} />
           </Route>
         </Route>

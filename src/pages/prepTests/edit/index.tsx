@@ -1,4 +1,4 @@
-import TaskForm from "@/components/task-form"
+import TestForm from "@/components/test-form"
 import { toast } from "@/components/ui/toast"
 import { getTestForEditApi, updateTestById } from "@/services/tests"
 import { getApiErrorMessage } from "@/utils/helper"
@@ -8,7 +8,7 @@ import { Loader } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 
-const TaskEdit = () => {
+const TestEdit = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const [test, setTest] = useState<CreateTest | null>(null)
@@ -25,7 +25,7 @@ const TaskEdit = () => {
           title: "Test updated successfully",
           description: response.message,
         })
-        navigate("/task/dashboard")
+        navigate("/test/dashboard")
       } else {
         toast.add({
           title: "Failed to update test",
@@ -76,7 +76,7 @@ const TaskEdit = () => {
     )
   }
 
-  return <TaskForm defaultValues={test} onSubmit={onSubmit} formType="edit" />
+  return <TestForm defaultValues={test} onSubmit={onSubmit} formType="edit" />
 }
 
-export default TaskEdit
+export default TestEdit

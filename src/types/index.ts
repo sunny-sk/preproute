@@ -95,3 +95,31 @@ export type Test = {
 
 export type TestResponse = ApiResponse<Test>
 export type TestsResponse = ApiResponse<Test[]>
+
+
+export type TransformedTest = {
+  id: string
+  name: string
+  type: TestType
+  subject: string
+  topics: string[]
+  subTopics: string[]
+  questions: unknown[] | null
+  correctMarks: number
+  unattemptMarks: number
+  wrongMarks: number
+  difficulty: TestDifficulty
+  totalMarks: number
+  totalTime: number // minutes
+  totalQuestions: number
+  slot: string | null
+  hiddenFromModerator: boolean | null
+  createdBy: number
+  createdAt: string
+  updatedBy: number
+  updatedAt: string
+  paragraphQuestion: string | null
+  status: TestStatus
+  scheduledDate: string | null
+  expiryDate: string | null
+}

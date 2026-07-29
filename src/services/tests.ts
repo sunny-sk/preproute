@@ -94,6 +94,19 @@ export const updateTestById = async (id: string, data: CreateTestPayload) => {
   return response.data
 }
 
+export const publishTestApi = async (id: string) => {
+  const response = await api.put<TestResponse>(
+    URLS.UPDATE_TEST.replace(":id", id),
+    { status: "live" },
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  )
+  return response.data
+}
+
 /**
  * load test by id and format it in the shape the form expects.
  *

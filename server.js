@@ -13,8 +13,6 @@ const BACKEND_URL =
   "https://admin-moderator-backend-staging.up.railway.app"
 
 // Forward /api/* to the backend server-side, so the browser only ever talks to
-// this origin. This is what avoids CORS (the same job vercel.json does on Vercel
-// and the Vite dev proxy does locally). The full /api path is preserved.
 app.use(
   createProxyMiddleware({
     pathFilter: "/api",
