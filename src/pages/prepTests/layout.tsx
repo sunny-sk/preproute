@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router"
+import { NavLink, Outlet, useLocation } from "react-router"
 import {
   BarChart3,
   ClipboardPenLine,
@@ -7,43 +7,39 @@ import {
 } from "lucide-react"
 import Logo from "@/components/logo"
 import Header from "@/components/header"
+import useLoadedTest from "@/store/useLoadedTest"
 
 const MAIN_MENU_ITEMS = [
   {
     label: "Dashboard",
-    path: "/task/dashboard",
+    path: "/test/dashboard",
     icon: BarChart3,
   },
   {
     label: "Test Creation",
-    path: "/task/create",
+    path: "/test/create",
     icon: ClipboardPenLine,
   },
   {
     label: "Test Tracking",
-    path: "/task/tracking",
+    path: "/test/tracking",
     icon: FileText,
   },
 ]
 
-const QUESTION_ITEMS = [
-  "Question 1",
-  "Question 2",
-  "Question 3",
-  "Question X",
-  "Question 5",
-  "Question 6",
-]
 const PRIMARY_EXPANDED_SIDEBAR_WIDTH = "w-[230px]"
 const PRIMARY_COLLAPSED_SIDEBAR_WIDTH = "w-[88px]"
 const SECONDARY_SIDEBAR_WIDTH = "w-[210px]"
 
-const TaskLayout = () => {
-  // const { pathname } = useLocation()
-  const isSecondarySidebarVisible = false
+const TestLayout = () => {
+  const { pathname } = useLocation()
+  const { loadedTest, selectedQuestion, selectQuestion } = useLoadedTest()
+
+  const isSecondarySidebarVisible = loadedTest && pathname.includes("/questions")
   const leftPanelWidthClass = isSecondarySidebarVisible
     ? "w-[298px]"
     : PRIMARY_EXPANDED_SIDEBAR_WIDTH
+
 
   return (
     <section className="flex min-h-screen bg-[#f8faff]">
@@ -56,13 +52,12 @@ const TaskLayout = () => {
 
         <div className="flex min-h-0">
           <div
-            className={`border-r border-[#eef2fb] py-6 ${
-              isSecondarySidebarVisible
-                ? PRIMARY_COLLAPSED_SIDEBAR_WIDTH
-                : PRIMARY_EXPANDED_SIDEBAR_WIDTH
-            } ${isSecondarySidebarVisible ? "px-3" : "px-4"}`}
+            className={`border-r border-[#eef2fb] py-6 ${isSecondarySidebarVisible
+              ? PRIMARY_COLLAPSED_SIDEBAR_WIDTH
+              : PRIMARY_EXPANDED_SIDEBAR_WIDTH
+              } ${isSecondarySidebarVisible ? "px-3" : "px-4"}`}
           >
-            <nav aria-label="Task primary menu" className="space-y-2">
+            <nav aria-label="Test primary menu" className="space-y-2">
               {MAIN_MENU_ITEMS.map((item) => {
                 const Icon = item.icon
 
@@ -71,14 +66,12 @@ const TaskLayout = () => {
                     key={item.label}
                     to={item.path}
                     className={({ isActive }) =>
-                      `flex items-center rounded-lg py-2 text-sm font-medium transition-colors ${
-                        isSecondarySidebarVisible
-                          ? "justify-center px-2"
-                          : "gap-3 px-3"
-                      } ${
-                        isActive
-                          ? "bg-[#eef3ff] text-[#4f6fff]"
-                          : "text-[#52607a] hover:bg-[#f6f8ff]"
+                      `flex items-center rounded-lg py-2 text-sm font-medium transition-colors ${isSecondarySidebarVisible
+                        ? "justify-center px-2"
+                        : "gap-3 px-3"
+                      } ${isActive
+                        ? "bg-[#eef3ff] text-[#4f6fff]"
+                        : "text-[#52607a] hover:bg-[#f6f8ff]"
                       }`
                     }
                   >
@@ -93,28 +86,31 @@ const TaskLayout = () => {
           </div>
 
           {isSecondarySidebarVisible ? (
-            <div className={`${SECONDARY_SIDEBAR_WIDTH} px-3 py-4`}>
-              <section className="rounded-xl border border-[#dce7ff] bg-[#f8fbff] p-3">
+            <div className={`${SECONDARY_SIDEBAR_WIDTH}  py-4`}>
+              <section className="rounded-xl p-3">
                 <p className="mb-3 text-xs font-semibold tracking-wide text-[#5f6b84]">
                   Question creation
                 </p>
                 <p className="mb-3 text-xs text-[#7583a0]">
-                  Total Questions : 50
+                  Total Questions : {loadedTest?.totalQuestions}
                 </p>
 
-                <div className="space-y-1.5 rounded-lg border border-dashed border-[#90c9ff] p-2">
-                  {QUESTION_ITEMS.map((question) => {
+                <div className="space-y-1.5">
+                  {Array.from({ length: loadedTest?.totalQuestions || 0 }, (_, index) => index + 1).map((question) => {
                     return (
                       <button
+                        onClick={() => selectQuestion(question)}
                         key={question}
                         type="button"
-                        className="flex w-full items-center justify-between rounded-md border border-[#e7ecfa] bg-white px-2.5 py-1.5 text-left text-xs text-[#4f5f7f]"
+                        className={
+                          `flex w-full items-center justify-between rounded-md border bg-white ${selectedQuestion?.id === question ? "border-green-300" : ""} px-2.5 py-1.5 text-left text-xs text-[#4f5f7f]`
+                        }
                       >
                         <span className="flex items-center gap-2">
                           <CircleCheck size={13} className="text-[#2ab37f]" />
-                          {question}
+                          Question {question}
                         </span>
-                        <span className="text-[#8f9bb8]">›</span>
+                        <span className="text-[#8f9bb8]">››</span>
                       </button>
                     )
                   })}
@@ -136,4 +132,4 @@ const TaskLayout = () => {
   )
 }
 
-export default TaskLayout
+export default TestLayout

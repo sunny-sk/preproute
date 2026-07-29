@@ -1,4 +1,4 @@
-import TaskForm from "@/components/task-form"
+import TestForm from "@/components/test-form"
 import { toast } from "@/components/ui/toast"
 import { createTestApi } from "@/services/tests"
 import { TestType } from "@/types"
@@ -21,7 +21,7 @@ const TaskCreate = () => {
           description: response.message,
         })
         const testId = response.data.id
-        navigate(`/task/create/${testId}/questions`)
+        navigate(`/test/${testId}/questions`)
       } else {
         toast.add({
           title: "Failed to create test",
@@ -37,7 +37,7 @@ const TaskCreate = () => {
   }
 
   return (
-    <TaskForm
+    <TestForm
       onSubmit={onSubmit}
       formType="create"
       defaultValues={{

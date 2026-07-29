@@ -19,7 +19,7 @@ const TaskDashboard = () => {
   const [tests, setTests] = useState<Test[]>([])
   const [loading, setLoading] = useState(false)
 
-  const handleCreate = () => navigate("/task/create")
+  const handleCreate = () => navigate("/test/create")
 
   useEffect(() => {
     const init = async () => {
