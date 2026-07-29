@@ -1,4 +1,4 @@
-import { Eye, Pencil } from "lucide-react"
+import { Eye, Link, Pencil } from "lucide-react"
 import StatusBadge from "./status-badge"
 import DeleteTestButton from "./delete-test-button"
 import type { Test } from "@/types"
@@ -30,10 +30,12 @@ const TRowMob = ({ test, onDeleted }: TRowMobProps) => {
           Created {formatDate(test.created_at)}
         </span>
         <div className="flex items-center gap-1">
-          <RowAction label="View" onClick={() => {}}>
-            <Eye size={16} />
-          </RowAction>
-          <RowAction label="Edit" onClick={() => {}}>
+          <Link to={`/test/${test.id}/questions`}>
+            <RowAction label="View" onClick={() => { }}>
+              <Eye size={16} />
+            </RowAction>
+          </Link>
+          <RowAction label="Edit" onClick={() => { }}>
             <Pencil size={16} />
           </RowAction>
           <DeleteTestButton test={test} onDeleted={onDeleted} />

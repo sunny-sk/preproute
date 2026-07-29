@@ -28,9 +28,11 @@ const TRow = ({ test, onDeleted }: TRowProps) => {
       </td>
       <td className="px-3 py-4">
         <div className="flex items-center justify-end gap-1">
-          <RowAction label="View" onClick={() => {}}>
-            <Eye size={16} />
-          </RowAction>
+          <Link to={`/test/${test.id}/questions`}>
+            <RowAction label="View" onClick={() => { }}>
+              <Eye size={16} />
+            </RowAction>
+          </Link>
           <Link to={`/test/${test.id}/edit`}>
             <Pencil size={16} />
           </Link>
