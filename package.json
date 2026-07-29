@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node server.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -19,6 +20,8 @@
     "axios": "^1.18.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "express": "^4.22.2",
+    "http-proxy-middleware": "^3.0.7",
     "lucide-react": "^1.26.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
