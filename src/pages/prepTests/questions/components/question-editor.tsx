@@ -1,7 +1,8 @@
 import { Trash2 } from "lucide-react"
 
 import DifficultyLevel from "@/components/difficulty-level"
-import Topic from "@/components/topic"
+import TopicSelect from "@/components/topic-select"
+import SubTopicSelect from "@/components/sub-topic-select"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Field, FieldLabel } from "@/components/ui/field"
@@ -26,9 +27,10 @@ type QuestionEditorProps = {
   subjectId?: string | null
 }
 
-const labelClass = "text-sm font-medium text-heading"
+
+const labelClass = "mb-2 block text-sm font-medium text-body"
 const controlClass =
-  "h-12 w-full rounded-xl border-line px-4 text-sm text-body-muted data-placeholder:text-placeholder"
+  "h-12 w-full rounded-lg border-line-strong px-4 text-sm text-body shadow-none placeholder:text-placeholder focus-visible:ring-2 data-[size=default]:h-12"
 
 const QuestionEditor = ({
   onChange,
@@ -118,12 +120,23 @@ const QuestionEditor = ({
           onChange={(difficulty) => patch({ difficulty: difficulty ?? "" })}
         />
 
-        <Topic
+        <TopicSelect
           labelClass={labelClass}
           controlClass={controlClass}
           subjectId={subjectId}
-          value={selectedQuestion?.topic ?? []}
-          onChange={(topicIds) => patch({ topic: topicIds })}
+          value={selectedQuestion?.topic ?? ""}
+          onChange={(topicId) => {
+            // reset the sub-topic since it belongs to the previous topic
+            patch({ topic: topicId, sub_topic: "" })
+          }}
+        />
+
+        <SubTopicSelect
+          labelClass={labelClass}
+          controlClass={controlClass}
+          topicId={selectedQuestion?.topic ?? ""}
+          value={selectedQuestion?.sub_topic ?? ""}
+          onChange={(subTopicId) => patch({ sub_topic: subTopicId })}
         />
 
         {/* Media URL (optional) */}
@@ -152,25 +165,6 @@ const QuestionEditor = ({
           ) : null}
         </Field>
 
-        {/* TODO:// */}
-        {/* <div className="space-y-2">
-          <label className={labelClass}>Sub-topic</label>
-          <Select
-            value={value.sub_topic || null}
-            onValueChange={(v: string | null) => patch({ sub_topic: v ?? "" })}
-          >
-            <SelectTrigger className={controlClass}>
-              <SelectValue placeholder="Select from Drop-down" />
-            </SelectTrigger>
-            <SelectContent>
-              {subTopicOptions.map((subTopic) => (
-                <SelectItem key={subTopic} value={subTopic}>
-                  {subTopic}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div> */}
       </div>
 
       {/* Footer */}

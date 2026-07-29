@@ -22,7 +22,7 @@ export type QuestionDraft = {
   correct_option: CorrectOption
   explanation: string
   difficulty: TestDifficulty | ""
-  topic: string[]
+  topic: string
   sub_topic: string
   media_url: string
 }
@@ -39,7 +39,7 @@ export const createEmptyQuestion = (id: number): QuestionDraft => ({
   correct_option: "",
   explanation: "",
   difficulty: "",
-  topic: [],
+  topic: "",
   sub_topic: "",
   media_url: "",
 })

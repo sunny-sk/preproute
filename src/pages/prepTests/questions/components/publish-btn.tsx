@@ -1,7 +1,11 @@
 import { Loader2Icon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
-import { bulkCreateQuestionsApi, publishTestApi } from '@/services/tests'
+import {
+  bulkCreateQuestionsApi,
+  getTopicNameMaps,
+  publishTestApi,
+} from '@/services/tests'
 import useLoadedTest from '@/store/useLoadedTest'
 import { getApiErrorMessage } from '@/utils/helper'
 import { buildBulkQuestionsPayload } from '@/utils/test-mapper'
@@ -15,8 +19,9 @@ interface PublishBtnProps {
 }
 
 const PublishBtn = ({ id, subjectId }: PublishBtnProps) => {
-  const { questions, resetTest } = useLoadedTest(useShallow((s) => {
+  const { questions, resetTest, updateQuestionStatus } = useLoadedTest(useShallow((s) => {
     return {
+      updateQuestionStatus: s.updateQuestionStatus,
       questions: s.questions,
       resetTest: s.resetTest,
     }
@@ -26,6 +31,7 @@ const PublishBtn = ({ id, subjectId }: PublishBtnProps) => {
   const [isPublishing, setIsPublishing] = useState(false);
 
   const handlePublish = async () => {
+    updateQuestionStatus();
     if (!id || isPublishing) return
     if (!subjectId) {
       toast.add({
@@ -45,8 +51,23 @@ const PublishBtn = ({ id, subjectId }: PublishBtnProps) => {
 
     setIsPublishing(true)
     try {
+      // Drafts hold topic / sub-topic ids; the API wants their names, so resolve
+      // the id -> name maps for the subject before building the payload.
+      const selectedTopicIds = questions
+        .map((question) => question.topic)
+        .filter(Boolean)
+      const { topicNames, subTopicNames } = await getTopicNameMaps(
+        subjectId,
+        selectedTopicIds
+      )
 
-      const payload = buildBulkQuestionsPayload(questions, id, subjectId)
+      const payload = buildBulkQuestionsPayload(
+        questions,
+        id,
+        subjectId,
+        topicNames,
+        subTopicNames
+      )
       const createRes = await bulkCreateQuestionsApi(payload)
       if (createRes.status !== "success") {
         toast.add({

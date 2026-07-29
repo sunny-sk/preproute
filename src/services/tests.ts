@@ -54,6 +54,46 @@ export const getSubTopicsApi = async (topicId: string) => {
   return response.data
 }
 
+/**
+ * Builds id -> name lookups for a subject's topics and the sub-topics of the
+ * given topics. Question drafts store topic / sub-topic ids, but the questions
+ * API expects their names, so these maps translate ids to names at publish time.
+ */
+export const getTopicNameMaps = async (
+  subjectId: string,
+  topicIds: string[]
+): Promise<{
+  topicNames: Record<string, string>
+  subTopicNames: Record<string, string>
+}> => {
+  const topicNames: Record<string, string> = {}
+  const subTopicNames: Record<string, string> = {}
+
+  if (!subjectId) return { topicNames, subTopicNames }
+
+  const topicsRes = await getTopicsApi(subjectId)
+  if (topicsRes.status === "success") {
+    topicsRes.data.forEach((topic) => {
+      topicNames[topic.id] = topic.name
+    })
+  }
+
+  const uniqueTopicIds = Array.from(new Set(topicIds))
+  if (uniqueTopicIds.length) {
+    const responses = await Promise.all(
+      uniqueTopicIds.map((topicId) => getSubTopicsApi(topicId))
+    )
+    responses
+      .filter((response) => response.status === "success")
+      .flatMap((response) => response.data)
+      .forEach((subTopic) => {
+        subTopicNames[subTopic.id] = subTopic.name
+      })
+  }
+
+  return { topicNames, subTopicNames }
+}
+
 export const getAllTestsApi = async () => {
   const response = await api.get<TestsResponse>(URLS.ALL_TESTS, {
     headers: {

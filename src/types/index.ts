@@ -108,6 +108,8 @@ export type BulkQuestionPayload = {
   explanation?: string
   difficulty?: TestDifficulty
   media_url?: string
+  topic?: string
+  sub_topic?: string
   test_id: string
   subject: string
 }
@@ -132,6 +134,8 @@ export type Question = {
   test_id?: string
   subject?: string
   media_url?: string
+  topic?: string
+  sub_topic?: string
 }
 
 export type FetchBulkQuestionsResponse = ApiResponse<Question[]>

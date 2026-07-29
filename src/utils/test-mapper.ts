@@ -22,13 +22,20 @@ export const buildTestPayload = (values: CreateTest): CreateTestPayload => ({
   status: values.status,
 })
 
-/** Maps the local question drafts into the `POST /questions/bulk` payload. */
+/**
+ * Maps the local question drafts into the `POST /questions/bulk` payload.
+ *
+ * Drafts hold topic / sub-topic *ids*, but the API expects their *names* as a
+ * single string, so pass the id -> name lookups (see `getTopicNameMaps`).
+ */
 export const buildBulkQuestionsPayload = (
   questions: QuestionDraft[],
   testId: string,
-  subjectId: string
-): BulkQuestionPayload[] =>
-  questions.map((q) => {
+  subjectId: string,
+  topicNames: Record<string, string> = {},
+  subTopicNames: Record<string, string> = {}
+): BulkQuestionPayload[] => {
+  return questions.map((q) => {
     const temp: BulkQuestionPayload = {
       type: "mcq",
       question: q.question,
@@ -49,8 +56,19 @@ export const buildBulkQuestionsPayload = (
     if (q.media_url) {
       temp.media_url = q.media_url
     }
+    const topic = q.topic ? (topicNames[q.topic] ?? q.topic) : ""
+    if (topic) {
+      temp.topic = topic
+    }
+    const subTopic = q.sub_topic
+      ? (subTopicNames[q.sub_topic] ?? q.sub_topic)
+      : ""
+    if (subTopic) {
+      temp.sub_topic = subTopic
+    }
     return temp
   })
+}
 
 /**
  * Maps a test returned by the API back into the shape the form works with.

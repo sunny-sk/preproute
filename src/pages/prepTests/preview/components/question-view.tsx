@@ -1,5 +1,6 @@
 import { Check } from "lucide-react"
 
+import { Badge } from "@/components/ui/badge"
 import {
   OPTION_KEYS,
   type OptionKey,
@@ -22,6 +23,8 @@ export type PreviewQuestion = {
   explanation?: string
   difficulty?: TestDifficulty | ""
   media_url?: string
+  topic?: string
+  sub_topic?: string
 }
 
 const DIFFICULTY_META: Record<
@@ -133,8 +136,42 @@ const QuestionView = ({ index, total, question }: QuestionViewProps) => {
           />
         </div>
       ) : null}
+
+      {/* Topic / Sub-topic */}
+      {question.topic || question.sub_topic ? (
+        <div className="mt-6 flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:gap-10">
+          <TagGroup label="Topic" value={question.topic} />
+          <TagGroup label="Sub-topic" value={question.sub_topic} />
+        </div>
+      ) : null}
     </div>
   )
 }
 
 export default QuestionView
+
+function TagGroup({ label, value }: { label: string; value?: string }) {
+  const items = (value ?? "")
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean)
+  if (!items.length) return null
+  return (
+    <div className="flex items-start gap-2">
+      <span className="shrink-0 pt-1 text-xs font-medium text-placeholder">
+        {label}
+      </span>
+      <div className="flex flex-wrap gap-2">
+        {items.map((name) => (
+          <Badge
+            key={name}
+            variant="outline"
+            className="rounded-md border-warning-border text-warning-strong"
+          >
+            {name}
+          </Badge>
+        ))}
+      </div>
+    </div>
+  )
+}
