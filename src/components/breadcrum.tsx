@@ -28,7 +28,7 @@ const Breadcrum = ({ items, className }: BreadcrumProps) => {
             {item.href && !isLast ? (
               <Link
                 to={item.href}
-                className="text-[#8a95ad] transition-colors hover:text-[#33415c]"
+                className="text-placeholder transition-colors hover:text-body"
               >
                 {item.label}
               </Link>
@@ -36,14 +36,14 @@ const Breadcrum = ({ items, className }: BreadcrumProps) => {
               <span
                 aria-current={isLast ? "page" : undefined}
                 className={
-                  isLast ? "font-medium text-[#33415c]" : "text-[#8a95ad]"
+                  isLast ? "font-medium text-body" : "text-placeholder"
                 }
               >
                 {item.label}
               </span>
             )}
 
-            {!isLast ? <span className="text-[#c3ccdd]">/</span> : null}
+            {!isLast ? <span className="text-faint">/</span> : null}
           </Fragment>
         )
       })}

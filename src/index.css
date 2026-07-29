@@ -48,6 +48,56 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* App color palette — semantic design tokens, consolidated from values that
+   used to be hardcoded inline (e.g. text-[#33415c]). Use them as bg-, text- and
+   border- utilities, e.g. text-body, bg-brand-soft, border-line. */
+@theme {
+    /* Brand */
+    --color-brand: #4f6fff;
+    --color-brand-soft: #eef3ff;
+    --color-brand-muted: #9db2ff;
+
+    /* Surfaces */
+    --color-canvas: #f8faff;
+    --color-surface-muted: #f1f3f8;
+
+    /* Lines / borders */
+    --color-line: #eef2fb;
+    --color-line-strong: #e4e9f4;
+
+    /* Text */
+    --color-heading: #1f2a44;
+    --color-body: #33415c;
+    --color-body-muted: #52607a;
+    --color-body-subtle: #7581a0;
+    --color-placeholder: #9aa6be;
+    --color-faint: #c3cbdd;
+
+    /* Danger */
+    --color-danger: #e5646d;
+    --color-danger-strong: #cf4b54;
+    --color-danger-soft: #fdecee;
+    --color-danger-light: #ef8a8f;
+
+    /* Success */
+    --color-success: #16c47f;
+    --color-success-strong: #12a06a;
+    --color-success-soft: #e7f8f0;
+
+    /* Warning */
+    --color-warning: #f0a92c;
+    --color-warning-strong: #d99e1f;
+    --color-warning-soft: #fff4e5;
+    --color-warning-border: #f3d283;
+
+    /* Highlight */
+    --color-highlight: #fff3b0;
+
+    /* Accent (violet) */
+    --color-violet: #7c5cff;
+    --color-violet-soft: #f3edff;
+}
+
 :root {
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);

@@ -23,9 +23,9 @@ type QuestionEditorProps = {
   subjectId?: string | null
 }
 
-const labelClass = "text-sm font-medium text-[#1f2a44]"
+const labelClass = "text-sm font-medium text-heading"
 const controlClass =
-  "h-12 w-full rounded-xl border-[#eef2fb] px-4 text-sm text-[#52607a] data-placeholder:text-[#9aa6be]"
+  "h-12 w-full rounded-xl border-line px-4 text-sm text-body-muted data-placeholder:text-placeholder"
 
 const QuestionEditor = ({
   onChange,
@@ -57,7 +57,7 @@ const QuestionEditor = ({
       <button
         type="button"
         onClick={handleDeleteAll}
-        className="flex items-center gap-1.5 text-sm font-medium text-[#e5646d] transition-colors hover:text-[#cf4b54]"
+        className="flex items-center gap-1.5 text-sm font-medium text-danger transition-colors hover:text-danger-strong"
       >
         <Trash2 size={16} />
         Delete All Edits
@@ -144,7 +144,7 @@ const QuestionEditor = ({
         <Button
           type="button"
           onClick={handleExit}
-          className="h-11 rounded-lg bg-[#ef8a8f] px-6 text-sm font-medium text-white hover:bg-[#e5646d]"
+          className="h-11 rounded-lg bg-danger-light px-6 text-sm font-medium text-white hover:bg-danger"
         >
           Exit Test Creation
         </Button>

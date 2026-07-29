@@ -4,7 +4,7 @@ type HeadingProps = {
 
 const Heading = ({ title }: HeadingProps) => {
   return (
-    <h3 className="mb-3 text-base font-semibold text-[#1f2a44]">
+    <h3 className="mb-3 text-base font-semibold text-heading">
       {title}
     </h3>
   )

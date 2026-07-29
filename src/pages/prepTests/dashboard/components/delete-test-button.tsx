@@ -62,7 +62,7 @@ const DeleteTestButton = ({ test, onDeleted }: DeleteTestButtonProps) => {
             type="button"
             aria-label="Delete"
             title="Delete"
-            className="flex h-9 w-9 items-center justify-center rounded-lg text-[#e5646d] transition-colors hover:bg-[#fdECEE]"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-danger transition-colors hover:bg-danger-soft"
           />
         }
       >

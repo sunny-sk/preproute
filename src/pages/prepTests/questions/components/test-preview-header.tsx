@@ -18,9 +18,9 @@ const DIFFICULTY_META: Record<
   TestDifficulty,
   { label: string; className: string }
 > = {
-  easy: { label: "Easy", className: "bg-[#57b5a6] text-white" },
-  medium: { label: "Medium", className: "bg-[#f0a92c] text-white" },
-  difficult: { label: "Difficult", className: "bg-[#e5646d] text-white" },
+  easy: { label: "Easy", className: "bg-success text-white" },
+  medium: { label: "Medium", className: "bg-warning text-white" },
+  difficult: { label: "Difficult", className: "bg-danger text-white" },
 }
 
 interface TestPreviewHeaderProps {
@@ -42,17 +42,17 @@ const TestPreviewHeader = ({
 
   return (
     <div className="mt-6 space-y-6">
-      <div className="rounded-2xl border border-[#eef2fb] bg-white p-6 shadow-[0_1px_2px_rgba(16,24,68,0.04)]">
+      <div className="rounded-2xl border border-line bg-white p-6 shadow-[0_1px_2px_rgba(16,24,68,0.04)]">
         {/* Type + edit */}
         <div className="flex items-start justify-between">
-          <span className="rounded-full bg-[#101a44] px-4 py-1.5 text-xs font-semibold text-white">
+          <span className="rounded-full bg-heading px-4 py-1.5 text-xs font-semibold text-white">
             {TEST_TYPE_LABELS[loadedTest.type]}
           </span>
           {testId ? (
             <Link
               to={`/test/${testId}/edit`}
               aria-label="Edit test"
-              className="flex h-8 w-8 items-center justify-center rounded-lg text-[#4f6fff] transition-colors hover:bg-[#eef3ff]"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-brand transition-colors hover:bg-brand-soft"
             >
               <Pencil size={18} />
             </Link>
@@ -62,7 +62,7 @@ const TestPreviewHeader = ({
         {/* Name + difficulty */}
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <img src="/ar_stickers.svg" />
-          <h2 className="text-lg font-bold text-[#1f2a44]">
+          <h2 className="text-lg font-bold text-heading">
             {loadedTest.name}
           </h2>
           <span
@@ -77,7 +77,7 @@ const TestPreviewHeader = ({
         <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="space-y-3">
             <DetailRow label="Subject">
-              <span className="text-sm text-[#33415c]">
+              <span className="text-sm text-body">
                 {loadedTest.subject || "—"}
               </span>
             </DetailRow>
@@ -85,7 +85,7 @@ const TestPreviewHeader = ({
             <DetailRow label="Topic">
               <div className="flex flex-wrap gap-2">
                 {loadedTest.topics.map((name) => (
-                  <Badge key={name} variant="outline" className="border-[#f3d283] rounded-md text-[#d99e1f]">{name}</Badge>
+                  <Badge key={name} variant="outline" className="border-warning-border rounded-md text-warning-strong">{name}</Badge>
                 ))}
               </div>
             </DetailRow>
@@ -93,21 +93,21 @@ const TestPreviewHeader = ({
             <DetailRow label="Sub Topic">
               <div className="flex flex-wrap gap-2">
                 {loadedTest.subTopics.map((name) => (
-                  <Badge key={name} variant="outline" className="border-[#f3d283] rounded-md text-[#d99e1f]">{name}</Badge>
+                  <Badge key={name} variant="outline" className="border-warning-border rounded-md text-warning-strong">{name}</Badge>
                 ))}
               </div>
             </DetailRow>
           </div>
 
           {/* Stats */}
-          <div className="flex w-fit items-center gap-4 rounded-xl border border-[#eef1f8] px-5 py-2.5">
+          <div className="flex w-fit items-center gap-4 rounded-xl border border-line px-5 py-2.5">
             <Stat icon={<img src="/timer.svg" />} value={`${loadedTest.totalTime} Min`} />
-            <span className="h-5 w-px bg-[#e8ecf5]" />
+            <span className="h-5 w-px bg-line" />
             <Stat
               icon={<img src="/quiz.svg" />}
               value={`${loadedTest.totalQuestions} Q's`}
             />
-            <span className="h-5 w-px bg-[#e8ecf5]" />
+            <span className="h-5 w-px bg-line" />
             <Stat icon={<img src="/leaderboard.png" />} value={`${loadedTest.totalMarks} Marks`} />
           </div>
         </div>
@@ -115,9 +115,9 @@ const TestPreviewHeader = ({
 
       {/* Question toolbar */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-lg font-semibold text-[#1f2a44]">
+        <p className="text-lg font-semibold text-heading">
           Question {selectedQuestion?.id}
-          <span className="text-[#9db2ff]">/{loadedTest.totalQuestions}</span>
+          <span className="text-brand-muted">/{loadedTest.totalQuestions}</span>
         </p>
 
         <div className="flex items-center gap-3">
@@ -144,8 +144,8 @@ function DetailRow({
 }) {
   return (
     <div className="flex items-start gap-2">
-      <span className="w-20 shrink-0 text-sm text-[#8b96ad]">{label}</span>
-      <span className="text-sm text-[#8b96ad]">:</span>
+      <span className="w-20 shrink-0 text-sm text-placeholder">{label}</span>
+      <span className="text-sm text-placeholder">:</span>
       <div className="pt-px">{children}</div>
     </div>
   )
@@ -154,7 +154,7 @@ function DetailRow({
 
 function Stat({ icon, value }: { icon: React.ReactNode; value: string }) {
   return (
-    <span className="flex items-center gap-2 text-sm font-medium text-[#2f3b52]">
+    <span className="flex items-center gap-2 text-sm font-medium text-body">
       {icon}
       {value}
     </span>
@@ -174,7 +174,7 @@ function ToolbarButton({
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center gap-2 rounded-lg bg-[#f1f3fc] px-5 py-2.5 text-sm font-medium text-[#7581a0] transition-colors hover:bg-[#e8ecf9]"
+      className="flex items-center gap-2 rounded-lg bg-surface-muted px-5 py-2.5 text-sm font-medium text-body-subtle transition-colors hover:bg-line-strong"
     >
       {icon}
       {children}

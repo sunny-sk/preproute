@@ -10,9 +10,9 @@ import { DIFFICULTY_LEVELS } from "@/constant"
 import type { TestDifficulty } from "@/types"
 import { Field, FieldError, FieldLabel } from "./ui/field"
 
-const DEFAULT_LABEL_CLASS = "mb-2 block text-sm font-medium text-[#33415c]"
+const DEFAULT_LABEL_CLASS = "mb-2 block text-sm font-medium text-body"
 const DEFAULT_CONTROL_CLASS =
-  "h-12 w-full rounded-lg border-[#e4e9f4] px-4 text-sm text-[#33415c] shadow-none placeholder:text-[#9aa6be] focus-visible:ring-2 data-[size=default]:h-12"
+  "h-12 w-full rounded-lg border-line-strong px-4 text-sm text-body shadow-none placeholder:text-placeholder focus-visible:ring-2 data-[size=default]:h-12"
 
 interface DifficultyLevelProps {
   labelClass?: string

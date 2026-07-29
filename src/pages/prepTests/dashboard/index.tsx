@@ -67,14 +67,14 @@ const TaskDashboard = () => {
   const isEmpty = !loading && filteredTests.length === 0
 
   return (
-    <div className="border-[#eef2fb] bg-white p-8">
+    <div className="border-line bg-white p-8">
       <Breadcrum items={[{ label: "Dashboard" }, { label: "Test List" }]} />
 
       {/* Page heading */}
       <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-[#24324b]">Test List</h1>
-          <p className="mt-1 text-sm text-[#68758f]">
+          <h1 className="text-xl font-semibold text-heading">Test List</h1>
+          <p className="mt-1 text-sm text-body-subtle">
             Manage, review and track all the tests you have created.
           </p>
         </div>
@@ -98,11 +98,11 @@ const TaskDashboard = () => {
       />
 
       {/* Table (md and up) */}
-      <div className="mt-6 hidden overflow-hidden rounded-xl border border-[#eef2fb] bg-white md:block">
+      <div className="mt-6 hidden overflow-hidden rounded-xl border border-line bg-white md:block">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[720px] border-collapse text-left">
             <THead />
-            <tbody className="divide-y divide-[#f1f4fb]">
+            <tbody className="divide-y divide-line">
               {loading
                 ? Array.from({ length: 6 }).map((_, i) => (
                     <TRowSkeleton key={i} />
@@ -139,7 +139,7 @@ const TaskDashboard = () => {
             ))}
 
         {isEmpty ? (
-          <div className="rounded-xl border border-[#eef2fb] bg-white">
+          <div className="rounded-xl border border-line bg-white">
             <EmptyState
               title={hasFilters ? "No matching tests" : "No tests yet"}
               description={

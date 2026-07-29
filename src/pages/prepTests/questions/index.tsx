@@ -89,7 +89,7 @@ const TaskQuestions = () => {
 
 
   return <>
-    <div ref={topRef} className="border-[#eef2fb] bg-white p-8">
+    <div ref={topRef} className="border-line bg-white p-8">
       <div className="flex items-center justify-between">
         <Breadcrum items={[{ label: "Dashboard" }, { label: "Test List" }]} />
         <PublishBtn id={id} subjectId={subjectId} />
@@ -101,7 +101,7 @@ const TaskQuestions = () => {
 
 
       {!isLoading && test && !error ? (
-        <div className="mt-8 border-t border-[#eef2fb] pt-8">
+        <div className="mt-8 border-t border-line pt-8">
           <QuestionEditor
             onChange={setSelectedQuestion}
             onSubmit={handleSubmitQuestion}

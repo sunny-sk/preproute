@@ -25,21 +25,21 @@ const Answers = ({ value, options, onValueChange, setOption }: AnswersProps) => 
             <RadioGroupItem
               value={key}
               aria-label={`Mark option ${i + 1} as correct`}
-              className="size-5 border-[#c9d4f7]"
+              className="size-5 border-line-strong"
             />
             <div className="relative flex-1">
               <Input
                 value={options[key]}
                 onChange={(e) => setOption(key, e.target.value)}
                 placeholder="Type Option here"
-                className="h-12 rounded-xl border-[#eef2fb] pr-11 pl-4 text-sm"
+                className="h-12 rounded-xl border-line pr-11 pl-4 text-sm"
               />
               <button
                 type="button"
                 onClick={() => setOption(key, "")}
                 aria-label={`Clear option ${i + 1}`}
                 title="Clear option"
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-[#c3cbdd] transition-colors hover:text-[#e5646d]"
+                className="absolute top-1/2 right-3 -translate-y-1/2 text-faint transition-colors hover:text-danger"
               >
                 <Trash2 size={16} />
               </button>

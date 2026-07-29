@@ -43,9 +43,9 @@ const TestLayout = () => {
 
 
   return (
-    <section className="flex min-h-screen bg-[#f8faff]">
+    <section className="flex min-h-screen bg-canvas">
       <aside
-        className={`${leftPanelWidthClass} border-r border-[#e8edf8] bg-white`}
+        className={`${leftPanelWidthClass} border-r border-line-strong bg-white`}
       >
         <div className="px-6 py-7">
           <Logo />
@@ -53,7 +53,7 @@ const TestLayout = () => {
 
         <div className="flex min-h-0">
           <div
-            className={`border-r border-[#eef2fb] py-6 ${isSecondarySidebarVisible
+            className={`border-r border-line py-6 ${isSecondarySidebarVisible
               ? PRIMARY_COLLAPSED_SIDEBAR_WIDTH
               : PRIMARY_EXPANDED_SIDEBAR_WIDTH
               } ${isSecondarySidebarVisible ? "px-3" : "px-4"}`}
@@ -71,8 +71,8 @@ const TestLayout = () => {
                         ? "justify-center px-2"
                         : "gap-3 px-3"
                       } ${isActive
-                        ? "bg-[#eef3ff] text-[#4f6fff]"
-                        : "text-[#52607a] hover:bg-[#f6f8ff]"
+                        ? "bg-brand-soft text-brand"
+                        : "text-body-muted hover:bg-canvas"
                       }`
                     }
                   >
@@ -89,10 +89,10 @@ const TestLayout = () => {
           {isSecondarySidebarVisible ? (
             <div className={`${SECONDARY_SIDEBAR_WIDTH}  py-4`}>
               <section className="rounded-xl p-3">
-                <p className="mb-3 text-xs font-semibold tracking-wide text-[#5f6b84]">
+                <p className="mb-3 text-xs font-semibold tracking-wide text-body-muted">
                   Question creation
                 </p>
-                <p className="mb-3 text-xs text-[#7583a0]">
+                <p className="mb-3 text-xs text-body-subtle">
                   Total Questions : {loadedTest?.totalQuestions}
                 </p>
 
@@ -110,17 +110,17 @@ const TestLayout = () => {
                         key={question}
                         type="button"
                         className={
-                          `flex w-full items-center justify-between rounded-md border ${isCompleted ? "bg-green-100" : "bg-gray-50"} ${selectedQuestion?.id === question ? "border-green-400" : ""} px-2.5 py-1.5 text-left text-xs text-[#4f5f7f]`
+                          `flex w-full items-center justify-between rounded-md border ${isCompleted ? "bg-green-100" : "bg-gray-50"} ${selectedQuestion?.id === question ? "border-green-400" : ""} px-2.5 py-1.5 text-left text-xs text-body-muted`
                         }
                       >
                         <span className="flex items-center gap-2">
                           <CircleCheck
                             size={13}
-                            className={isCompleted ? "text-[#2ab37f]" : "text-[#c3cbdd]"}
+                            className={isCompleted ? "text-success" : "text-faint"}
                           />
                           Question {question}
                         </span>
-                        <span className="text-[#8f9bb8]">››</span>
+                        <span className="text-placeholder">››</span>
                       </button>
                     )
                   })}
@@ -131,7 +131,7 @@ const TestLayout = () => {
         </div>
       </aside>
 
-      <main className="flex min-h-screen flex-1 flex-col bg-[#f8faff]">
+      <main className="flex min-h-screen flex-1 flex-col bg-canvas">
         <Header />
 
         <div className="flex-1 overflow-auto">

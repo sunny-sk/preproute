@@ -56,9 +56,9 @@ const RichTextEditor = ({
     editorProps: {
       attributes: {
         class: cn(
-          "min-h-[120px] w-full px-4 py-3 text-sm leading-relaxed text-[#2f3b52] outline-none",
+          "min-h-[120px] w-full px-4 py-3 text-sm leading-relaxed text-body outline-none",
           "[&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5",
-          "[&_a]:text-[#4f6fff] [&_a]:underline [&_mark]:rounded [&_mark]:bg-[#fff3b0] [&_mark]:px-0.5",
+          "[&_a]:text-brand [&_a]:underline [&_mark]:rounded [&_mark]:bg-highlight [&_mark]:px-0.5",
           editorClassName
         ),
       },
@@ -106,12 +106,12 @@ const RichTextEditor = ({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-xl border border-[#eef2fb] bg-white",
+        "overflow-hidden rounded-xl border border-line bg-white",
         className
       )}
     >
       {toolbar ? (
-        <div className="flex flex-wrap items-center gap-0.5 border-b border-[#eef2fb] px-2 py-1.5">
+        <div className="flex flex-wrap items-center gap-0.5 border-b border-line px-2 py-1.5">
           <ToolbarButton
             label="Italic"
             active={state?.isItalic}
@@ -199,7 +199,7 @@ const RichTextEditor = ({
 
       <div className="relative">
         {state?.isEmpty ? (
-          <span className="pointer-events-none absolute top-3 left-4 text-sm text-[#9aa6be]">
+          <span className="pointer-events-none absolute top-3 left-4 text-sm text-placeholder">
             {placeholder}
           </span>
         ) : null}
@@ -210,7 +210,7 @@ const RichTextEditor = ({
             onClick={onClear}
             aria-label="Clear content"
             title="Clear content"
-            className="absolute top-3 right-3 text-[#c3cbdd] transition-colors hover:text-[#e5646d]"
+            className="absolute top-3 right-3 text-faint transition-colors hover:text-danger"
           >
             <Trash2 size={16} />
           </button>
@@ -221,7 +221,7 @@ const RichTextEditor = ({
 };
 
 const Divider = () => {
-  return <span className="mx-1 h-5 w-px shrink-0 bg-[#eef2fb]" />
+  return <span className="mx-1 h-5 w-px shrink-0 bg-line" />
 }
 
 type ToolbarButtonProps = {
@@ -242,8 +242,8 @@ function ToolbarButton({ label, active, onClick, children }: ToolbarButtonProps)
       onMouseDown={(e) => e.preventDefault()}
       onClick={onClick}
       className={cn(
-        "flex h-8 w-8 items-center justify-center rounded-md text-[#6a7899] transition-colors hover:bg-[#eef3ff] hover:text-[#4f6fff] [&_svg]:size-4",
-        active && "bg-[#eef3ff] text-[#4f6fff]"
+        "flex h-8 w-8 items-center justify-center rounded-md text-body-subtle transition-colors hover:bg-brand-soft hover:text-brand [&_svg]:size-4",
+        active && "bg-brand-soft text-brand"
       )}
     >
       {children}

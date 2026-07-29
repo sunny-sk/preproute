@@ -4,7 +4,7 @@ import { getTestForEditApi, updateTestById } from "@/services/tests"
 import { getApiErrorMessage } from "@/utils/helper"
 import { buildTestPayload } from "@/utils/test-mapper"
 import { type CreateTest } from "@/validations"
-import { Loader } from "lucide-react"
+import { Loader2Icon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router"
 
@@ -61,8 +61,8 @@ const TestEdit = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center gap-2 bg-white p-16 text-sm text-[#68758f]">
-        <Loader size={18} className="animate-spin" />
+      <div className="flex items-center justify-center gap-2 bg-white p-16 text-sm text-body-subtle">
+        <Loader2Icon className="animate-spin" aria-hidden="true" />
         Loading test…
       </div>
     )
@@ -71,7 +71,7 @@ const TestEdit = () => {
   if (error || !test) {
     return (
       <div className="flex flex-col items-center justify-center gap-3 bg-white p-16 text-center">
-        <p className="text-sm text-[#e5646d]">{error ?? "Test not found"}</p>
+        <p className="text-sm text-destructive">{error ?? "Test not found"}</p>
       </div>
     )
   }

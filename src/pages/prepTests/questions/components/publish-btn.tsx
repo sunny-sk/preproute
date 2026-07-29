@@ -1,4 +1,4 @@
-import Loader from '@/components/loader'
+import { Loader2Icon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/toast'
 import { bulkCreateQuestionsApi, publishTestApi } from '@/services/tests'
@@ -88,7 +88,7 @@ const PublishBtn = ({ id, subjectId }: PublishBtnProps) => {
     >
       {isPublishing ? (
         <>
-          <Loader size={16} className="animate-spin" />
+          <Loader2Icon className="animate-spin" aria-hidden="true" />
           Publishing…
         </>
       ) : (

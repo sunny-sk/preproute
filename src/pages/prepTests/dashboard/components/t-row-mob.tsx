@@ -1,8 +1,10 @@
-import { Eye, Link, Pencil } from "lucide-react"
+import { Eye, Pencil } from "lucide-react"
 import StatusBadge from "./status-badge"
 import DeleteTestButton from "./delete-test-button"
 import type { Test } from "@/types"
 import { formatDate } from "@/utils/helper"
+import { Link } from "react-router"
+
 
 type TRowMobProps = {
   test: Test
@@ -13,20 +15,20 @@ const TRowMob = ({ test, onDeleted }: TRowMobProps) => {
   return (
     <div
       key={test.id}
-      className="rounded-xl border border-[#eef2fb] bg-white p-4"
+      className="rounded-xl border border-line bg-white p-4"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-sm font-medium text-[#2f3b52]">{test.name}</p>
-          <p className="mt-0.5 text-xs text-[#9aa6be]">
+          <p className="text-sm font-medium text-body">{test.name}</p>
+          <p className="mt-0.5 text-xs text-placeholder">
             {test.subject} · {test.questions?.length} Questions ·{" "}
             {test.total_time} min
           </p>
         </div>
         <StatusBadge status={test.status} />
       </div>
-      <div className="mt-4 flex items-center justify-between border-t border-[#f1f4fb] pt-3">
-        <span className="text-xs text-[#8a95ad]">
+      <div className="mt-4 flex items-center justify-between border-t border-line pt-3">
+        <span className="text-xs text-placeholder">
           Created {formatDate(test.created_at)}
         </span>
         <div className="flex items-center gap-1">
@@ -62,8 +64,8 @@ const RowAction = ({
 }: RowActionProps) => {
   const colors =
     variant === "danger"
-      ? "text-[#e5646d] hover:bg-[#fdECEE]"
-      : "text-[#6a7899] hover:bg-[#eef3ff] hover:text-[#4f6fff]"
+      ? "text-danger hover:bg-danger-soft"
+      : "text-body-subtle hover:bg-brand-soft hover:text-brand"
   return (
     <button
       type="button"

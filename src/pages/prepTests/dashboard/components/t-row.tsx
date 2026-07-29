@@ -12,18 +12,18 @@ type TRowProps = {
 
 const TRow = ({ test, onDeleted }: TRowProps) => {
   return (
-    <tr key={test.id} className="transition-colors hover:bg-[#fafbff]">
+    <tr key={test.id} className="transition-colors hover:bg-canvas">
       <td className="px-3 py-4">
-        <p className="text-sm font-medium text-[#2f3b52]">{test.name}</p>
-        <p className="mt-0.5 text-xs text-[#9aa6be]">
+        <p className="text-sm font-medium text-body">{test.name}</p>
+        <p className="mt-0.5 text-xs text-placeholder">
           {test.questions?.length} Questions · {test.total_time} min
         </p>
       </td>
-      <td className="px-3 py-4 text-sm text-[#52607a]">{test.subject}</td>
+      <td className="px-3 py-4 text-sm text-body-muted">{test.subject}</td>
       <td className="px-3 py-4">
         <StatusBadge status={test.status} />
       </td>
-      <td className="px-3 py-4 text-sm text-[#52607a]">
+      <td className="px-3 py-4 text-sm text-body-muted">
         {formatDate(test.created_at)}
       </td>
       <td className="px-3 py-4">
@@ -60,8 +60,8 @@ const RowAction = ({
 }: RowActionProps) => {
   const colors =
     variant === "danger"
-      ? "text-[#e5646d] hover:bg-[#fdECEE]"
-      : "text-[#6a7899] hover:bg-[#eef3ff] hover:text-[#4f6fff]"
+      ? "text-danger hover:bg-danger-soft"
+      : "text-body-subtle hover:bg-brand-soft hover:text-brand"
   return (
     <button
       type="button"

@@ -32,14 +32,14 @@ const TFilters = ({
       <div className="relative flex-1">
         <Search
           size={16}
-          className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-[#9aa6be]"
+          className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-placeholder"
         />
         <Input
           type="search"
           value={search}
           onChange={(event) => onSearchChange(event.target.value)}
           placeholder="Search by test name or subject"
-          className="h-11 rounded-lg border-[#eef2fb] bg-[#f8faff] pl-9 text-sm"
+          className="h-11 rounded-lg border-line bg-canvas pl-9 text-sm"
         />
       </div>
 
@@ -50,7 +50,7 @@ const TFilters = ({
       >
         <SelectTrigger
           aria-label="Filter by status"
-          className="w-full rounded-lg border-[#eef2fb] bg-[#f8faff] text-sm data-[size=default]:h-11 sm:w-52"
+          className="w-full rounded-lg border-line bg-canvas text-sm data-[size=default]:h-11 sm:w-52"
         >
           <SelectValue placeholder="All Statuses" />
         </SelectTrigger>

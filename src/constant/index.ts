@@ -13,43 +13,43 @@ export const TEST_STATUS_META: Record<
 > = {
   published: {
     label: "Published",
-    className: "bg-[#e7f8f0] text-[#12a06a]",
-    dotClassName: "bg-[#16c47f]",
+    className: "bg-success-soft text-success-strong",
+    dotClassName: "bg-success",
   },
   draft: {
     label: "Draft",
-    className: "bg-[#fff4e5] text-[#c8871f]",
-    dotClassName: "bg-[#f0a92c]",
+    className: "bg-warning-soft text-warning-strong",
+    dotClassName: "bg-warning",
   },
   live: {
     label: "Live",
-    className: "bg-[#eaf0ff] text-[#4f6fff]",
-    dotClassName: "bg-[#4f6fff]",
+    className: "bg-brand-soft text-brand",
+    dotClassName: "bg-brand",
   },
   expired: {
-    label: "Live",
-    className: "bg-[#eaf0ff] text-[#4f6fff]",
-    dotClassName: "bg-[#4f6fff]",
+    label: "Expired",
+    className: "bg-danger-soft text-danger-strong",
+    dotClassName: "bg-danger",
   },
   archived: {
     label: "Archived",
-    className: "bg-[#f1f3f8] text-[#7581a0]",
-    dotClassName: "bg-[#9aa6be]",
+    className: "bg-surface-muted text-body-subtle",
+    dotClassName: "bg-placeholder",
   },
   unpublished: {
     label: "Unpublished",
-    className: "bg-[#f1f3f8] text-[#7581a0]",
-    dotClassName: "bg-[#9aa6be]",
+    className: "bg-surface-muted text-body-subtle",
+    dotClassName: "bg-placeholder",
   },
   scheduled: {
     label: "Scheduled",
-    className: "bg-[#f1f3f8] text-[#7581a0]",
-    dotClassName: "bg-[#9aa6be]",
+    className: "bg-violet-soft text-violet",
+    dotClassName: "bg-violet",
   },
   "no-status": {
     label: "Archived",
-    className: "bg-[#f1f3f8] text-[#7581a0]",
-    dotClassName: "bg-[#9aa6be]",
+    className: "bg-surface-muted text-body-subtle",
+    dotClassName: "bg-placeholder",
   },
 }
 

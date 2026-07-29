@@ -16,7 +16,7 @@ import Topic from "@/components/topic"
 import SubTopics from "@/components/sub-topics"
 import TestTypeInput from "./test-type-input"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
-import { Loader } from "lucide-react"
+import { Loader2Icon } from "lucide-react"
 import React from "react"
 
 interface TaskFormInterface {
@@ -25,9 +25,9 @@ interface TaskFormInterface {
   formType: "create" | "edit"
 }
 
-const labelClass = "mb-2 block text-sm font-medium text-[#33415c]"
+const labelClass = "mb-2 block text-sm font-medium text-body"
 const controlClass =
-  "h-12 w-full rounded-lg border-[#e4e9f4] px-4 text-sm text-[#33415c] shadow-none placeholder:text-[#9aa6be] focus-visible:ring-2 data-[size=default]:h-12"
+  "h-12 w-full rounded-lg border-line-strong px-4 text-sm text-body shadow-none placeholder:text-placeholder focus-visible:ring-2 data-[size=default]:h-12"
 
 const TaskForm = ({ defaultValues, onSubmit, formType }: TaskFormInterface) => {
   const {
@@ -49,7 +49,7 @@ const TaskForm = ({ defaultValues, onSubmit, formType }: TaskFormInterface) => {
   const totalMarks = calcTotalMarks(noOfQuestions, correctAnswer)
 
   return (
-    <div className="border-[#eef2fb] bg-white p-8">
+    <div className="border-line bg-white p-8">
       {/* Breadcrumb */}
       <Breadcrum
         items={[
@@ -210,7 +210,7 @@ const TaskForm = ({ defaultValues, onSubmit, formType }: TaskFormInterface) => {
                   {DIFFICULTY_LEVELS.map((level) => (
                     <label
                       key={level.id}
-                      className="flex cursor-pointer items-center gap-2 text-sm text-[#33415c]"
+                      className="flex cursor-pointer items-center gap-2 text-sm text-body"
                     >
                       <RadioGroupItem value={level.id} />
                       {level.label}
@@ -223,7 +223,7 @@ const TaskForm = ({ defaultValues, onSubmit, formType }: TaskFormInterface) => {
         </div>
 
         {/* Marking Scheme */}
-        <h2 className="mt-8 text-sm font-medium text-[#33415c]">
+        <h2 className="mt-8 text-sm font-medium text-body">
           Marking Scheme:
         </h2>
         <div className="mt-4 grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-2">
@@ -317,7 +317,7 @@ const TaskForm = ({ defaultValues, onSubmit, formType }: TaskFormInterface) => {
                 readOnly
                 value={totalMarks ? `${totalMarks}` : ""}
                 placeholder="Ex:250 Marks"
-                className={`${controlClass} bg-[#f8faff] text-[#9aa6be]`}
+                className={`${controlClass} bg-canvas text-placeholder`}
               />
             </div>
           </div>
@@ -330,7 +330,7 @@ const TaskForm = ({ defaultValues, onSubmit, formType }: TaskFormInterface) => {
             variant="ghost"
             disabled={isSubmitting}
             onClick={() => reset()}
-            className="h-11 rounded-lg bg-[#f1f3fc] px-8 text-sm font-medium text-[#7581a0] hover:bg-[#e8ecf9]"
+            className="h-11 rounded-lg bg-surface-muted px-8 text-sm font-medium text-body-subtle hover:bg-line-strong"
           >
             Cancel
           </Button>
@@ -339,7 +339,7 @@ const TaskForm = ({ defaultValues, onSubmit, formType }: TaskFormInterface) => {
             disabled={isSubmitting}
             className="h-11 rounded-lg px-10 text-sm font-medium"
           >
-            {isSubmitting && <Loader size={20} className="animate-spin" />}
+            {isSubmitting && <Loader2Icon className="animate-spin" aria-hidden="true" />}
             {formType === "edit" ? "Save" : "Next"}
           </Button>
         </div>

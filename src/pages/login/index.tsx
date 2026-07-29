@@ -1,4 +1,4 @@
-import Loader from "@/components/loader"
+
 import { Button } from "@/components/ui/button"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
@@ -9,6 +9,7 @@ import { getSafeRedirectPath } from "@/utils/helper"
 import { loginSchema, type LoginFormSchema } from "@/validations"
 import { zodResolver } from "@hookform/resolvers/zod"
 import axios from "axios"
+import { Loader2Icon } from "lucide-react"
 import { Controller, useForm } from "react-hook-form"
 import { useNavigate, useSearchParams } from "react-router"
 import { useShallow } from "zustand/react/shallow"
@@ -53,9 +54,9 @@ const LoginPage = () => {
     }
   }
   return (
-    <section className="r w-full bg-[#f5f9ff]">
+    <section className="w-full bg-canvas">
       <div className="grid min-h-screen grid-cols-1 rounded-lg md:grid-cols-2">
-        <div className="hidden items-center justify-center rounded-l-lg bg-[#f5f9ff] p-8 md:flex">
+        <div className="hidden items-center justify-center rounded-l-lg bg-canvas p-8 md:flex">
           <img
             src="/login-left-image.svg"
             alt="Login side illustration"
@@ -72,10 +73,10 @@ const LoginPage = () => {
                 className="h-8 w-auto"
               />
 
-              <h1 className="mt-6 text-[1.75rem] leading-none font-medium text-[#111827]">
+              <h1 className="mt-6 text-[1.75rem] leading-none font-medium text-heading">
                 Login
               </h1>
-              <p className="mt-3 text-[0.813rem] text-[#6b7280]">
+              <p className="mt-3 text-[0.813rem] text-body-subtle">
                 Use your company provided Login credentials
               </p>
 
@@ -91,7 +92,7 @@ const LoginPage = () => {
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
                         <FieldLabel
-                          className="text-sm font-medium text-[#374151]"
+                          className="text-sm font-medium text-body"
                           htmlFor="userId"
                         >
                           User ID
@@ -103,7 +104,7 @@ const LoginPage = () => {
                           aria-invalid={fieldState.invalid}
                           placeholder="Enter User ID"
                           autoComplete="off"
-                          className="h-11 rounded-md border-[#d1d5db] px-3 text-sm shadow-none focus-visible:ring-2"
+                          className="h-11 rounded-md border-line-strong px-3 text-sm shadow-none focus-visible:ring-2"
                         />
                         {fieldState.invalid && (
                           <FieldError errors={[fieldState.error]} />
@@ -120,7 +121,7 @@ const LoginPage = () => {
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
                         <FieldLabel
-                          className="text-sm font-medium text-[#374151]"
+                          className="text-sm font-medium text-body"
                           htmlFor="password"
                         >
                           Password
@@ -132,7 +133,7 @@ const LoginPage = () => {
                           aria-invalid={fieldState.invalid}
                           placeholder="Enter Password"
                           autoComplete="off"
-                          className="h-11 rounded-md border-[#d1d5db] px-3 text-sm shadow-none focus-visible:ring-2"
+                          className="h-11 rounded-md border-line-strong px-3 text-sm shadow-none focus-visible:ring-2"
                         />
                         {fieldState.invalid && (
                           <FieldError errors={[fieldState.error]} />
@@ -144,7 +145,7 @@ const LoginPage = () => {
 
                 <button
                   type="button"
-                  className="text-sm font-medium text-[#3b82f6] hover:underline"
+                  className="text-sm font-medium text-brand hover:underline"
                 >
                   Forgot password?
                 </button>
@@ -153,7 +154,7 @@ const LoginPage = () => {
                   className="h-[48px] w-full rounded-md text-sm font-medium"
                   disabled={form.formState.isSubmitting}
                 >
-                  {form.formState.isSubmitting && <Loader size={20} />} Login
+                  {form.formState.isSubmitting && <Loader2Icon className="animate-spin" aria-hidden="true" />} Login
                 </Button>
               </form>
             </div>
