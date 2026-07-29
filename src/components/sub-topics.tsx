@@ -32,32 +32,37 @@ const SubTopics = ({
   errors,
 }: SubTopicsProps) => {
   const [subTopics, setSubTopics] = useState<SubTopicResponse["data"]>([])
-  const [loading, setLoading] = useState(false)
+  const [loadedKey, setLoadedKey] = useState<string | null>(null)
 
-  const init = async () => {
-    if (!topicIds.length) {
-      setSubTopics([])
-      setLoading(false)
-      return
-    }
-    setLoading(true)
-    const responses = await Promise.all(
-      topicIds.map((topicId) => getSubTopicsApi(topicId))
-    )
-    const merged = responses
-      .filter((response) => response.status === "success")
-      .flatMap((response) => response.data)
-    // Different topics may share sub-topics, so dedupe by id.
-    const unique = Array.from(
-      new Map(merged.map((subTopic) => [subTopic.id, subTopic])).values()
-    )
-    setSubTopics(unique)
-    setLoading(false)
-  }
+  // topicIds is a fresh array on every render, so key the effect on a stable
+  // string to avoid re-fetching each render.
+  const topicsKey = [...topicIds].sort().join(",")
+  // Derived so we never call setState synchronously inside the effect.
+  const loading = topicIds.length > 0 && loadedKey !== topicsKey
+  const options = topicIds.length ? subTopics : []
 
   useEffect(() => {
-    init()
-  }, [topicIds])
+    if (!topicsKey) return
+    let active = true
+    const ids = topicsKey.split(",")
+    Promise.all(ids.map((topicId) => getSubTopicsApi(topicId))).then(
+      (responses) => {
+        if (!active) return
+        const merged = responses
+          .filter((response) => response.status === "success")
+          .flatMap((response) => response.data)
+        // Different topics may share sub-topics, so dedupe by id.
+        const unique = Array.from(
+          new Map(merged.map((subTopic) => [subTopic.id, subTopic])).values()
+        )
+        setSubTopics(unique)
+        setLoadedKey(topicsKey)
+      }
+    )
+    return () => {
+      active = false
+    }
+  }, [topicsKey])
 
   return (
     <Field data-invalid={dataInvalid}>
@@ -80,7 +85,7 @@ const SubTopics = ({
             <SelectValue placeholder="Choose from Drop-down">
               {(selected: string[]) =>
                 selected.length
-                  ? subTopics
+                  ? options
                       .filter((subTopic) => selected.includes(subTopic.id))
                       .map((subTopic) => subTopic.name)
                       .join(", ")
@@ -89,7 +94,7 @@ const SubTopics = ({
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {subTopics.map((subTopic) => (
+            {options.map((subTopic) => (
               <SelectItem key={subTopic.id} value={subTopic.id}>
                 {subTopic.name}
               </SelectItem>

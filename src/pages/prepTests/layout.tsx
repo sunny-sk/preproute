@@ -8,6 +8,7 @@ import {
 import Logo from "@/components/logo"
 import Header from "@/components/header"
 import useLoadedTest from "@/store/useLoadedTest"
+import { useShallow } from "zustand/react/shallow"
 
 const MAIN_MENU_ITEMS = [
   {
@@ -34,7 +35,15 @@ const SECONDARY_SIDEBAR_WIDTH = "w-[210px]"
 const TestLayout = () => {
   const { pathname } = useLocation()
   const { loadedTest, questions, selectedQuestion, selectQuestion, updateQuestionStatus } =
-    useLoadedTest()
+    useLoadedTest(useShallow((s) => {
+      return {
+        loadedTest: s.loadedTest,
+        questions: s.questions,
+        selectedQuestion: s.selectedQuestion,
+        selectQuestion: s.selectQuestion,
+        updateQuestionStatus: s.updateQuestionStatus,
+      }
+    }))
 
   const isSecondarySidebarVisible = loadedTest && pathname.includes("/questions")
   const leftPanelWidthClass = isSecondarySidebarVisible

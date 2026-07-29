@@ -46,6 +46,9 @@ export const buildBulkQuestionsPayload = (
     if (q.difficulty) {
       temp.difficulty = q.difficulty
     }
+    if (q.media_url) {
+      temp.media_url = q.media_url
+    }
     return temp
   })
 

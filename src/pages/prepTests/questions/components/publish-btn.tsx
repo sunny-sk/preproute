@@ -7,6 +7,7 @@ import { getApiErrorMessage } from '@/utils/helper'
 import { buildBulkQuestionsPayload } from '@/utils/test-mapper'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
+import { useShallow } from 'zustand/react/shallow'
 
 interface PublishBtnProps {
   id: string | undefined
@@ -14,7 +15,12 @@ interface PublishBtnProps {
 }
 
 const PublishBtn = ({ id, subjectId }: PublishBtnProps) => {
-  const { questions, resetTest } = useLoadedTest();
+  const { questions, resetTest } = useLoadedTest(useShallow((s) => {
+    return {
+      questions: s.questions,
+      resetTest: s.resetTest,
+    }
+  }));
   const navigate = useNavigate();
 
   const [isPublishing, setIsPublishing] = useState(false);

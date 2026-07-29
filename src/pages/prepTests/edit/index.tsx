@@ -1,4 +1,5 @@
 import TestForm from "@/components/test-form"
+import Seo from "@/components/seo"
 import { toast } from "@/components/ui/toast"
 import { getTestForEditApi, updateTestById } from "@/services/tests"
 import { getApiErrorMessage } from "@/utils/helper"
@@ -59,22 +60,46 @@ const TestEdit = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center gap-2 bg-white p-16 text-sm text-body-subtle">
-        <Loader2Icon className="animate-spin" aria-hidden="true" />
-        Loading test…
-      </div>
+      <>
+        <Seo
+          title="Edit Test | Preproute"
+          description="Update test details, topics, and scoring configuration."
+          path={id ? `/test/${id}/edit` : "/test/edit"}
+        />
+        <div className="flex items-center justify-center gap-2 bg-white p-16 text-sm text-body-subtle">
+          <Loader2Icon className="animate-spin" aria-hidden="true" />
+          Loading test…
+        </div>
+      </>
     )
   }
 
   if (error || !test) {
     return (
-      <div className="flex flex-col items-center justify-center gap-3 bg-white p-16 text-center">
-        <p className="text-sm text-destructive">{error ?? "Test not found"}</p>
-      </div>
+      <>
+        <Seo
+          title="Edit Test | Preproute"
+          description="Update test details, topics, and scoring configuration."
+          path={id ? `/test/${id}/edit` : "/test/edit"}
+          noIndex
+        />
+        <div className="flex flex-col items-center justify-center gap-3 bg-white p-16 text-center">
+          <p className="text-sm text-destructive">{error ?? "Test not found"}</p>
+        </div>
+      </>
     )
   }
 
-  return <TestForm defaultValues={test} onSubmit={onSubmit} formType="edit" />
+  return (
+    <>
+      <Seo
+        title={`Edit ${test.testName} | Preproute`}
+        description="Update test details, topics, and scoring configuration."
+        path={id ? `/test/${id}/edit` : "/test/edit"}
+      />
+      <TestForm defaultValues={test} onSubmit={onSubmit} formType="edit" />
+    </>
+  )
 }
 
 export default TestEdit

@@ -1,4 +1,5 @@
 import TestForm from "@/components/test-form"
+import Seo from "@/components/seo"
 import { toast } from "@/components/ui/toast"
 import { createTestApi } from "@/services/tests"
 import { TestType } from "@/types"
@@ -64,25 +65,32 @@ const TaskCreate = () => {
   }
 
   return (
-    <TestForm
-      onSubmit={onSubmit}
-      onSaveDraft={onSaveDraft}
-      formType="create"
-      defaultValues={{
-        type: TestType.CHAPTERWISE,
-        testName: "",
-        subjectId: "",
-        topicId: [],
-        subTopicId: [],
-        duration: 0,
-        difficulty: "easy",
-        wrongAnswer: -1,
-        unattempted: 0,
-        correctAnswer: 5,
-        noOfQuestions: 0,
-        status: "draft",
-      }}
-    />
+    <>
+      <Seo
+        title="Create Test | Preproute"
+        description="Create a new prep test with subject, topics, duration, and scoring rules."
+        path="/test/create"
+      />
+      <TestForm
+        onSubmit={onSubmit}
+        onSaveDraft={onSaveDraft}
+        formType="create"
+        defaultValues={{
+          type: TestType.CHAPTERWISE,
+          testName: "",
+          subjectId: "",
+          topicId: [],
+          subTopicId: [],
+          duration: 0,
+          difficulty: "easy",
+          wrongAnswer: -1,
+          unattempted: 0,
+          correctAnswer: 5,
+          noOfQuestions: 0,
+          status: "draft",
+        }}
+      />
+    </>
   )
 }
 

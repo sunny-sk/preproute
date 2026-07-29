@@ -1,4 +1,5 @@
 import Breadcrum from "@/components/breadcrum"
+import Seo from "@/components/seo"
 import { getSubjectsApi, getTestByIdApi } from "@/services/tests"
 import useLoadedTest from "@/store/useLoadedTest"
 import type { TransformedTest } from "@/types"
@@ -10,6 +11,7 @@ import Empty from "./components/empty"
 import PublishBtn from "./components/publish-btn"
 import QuestionEditor from "./components/question-editor"
 import TaskPreviewHeader from "./components/test-preview-header"
+import { useShallow } from "zustand/react/shallow"
 
 const TaskQuestions = () => {
   const { id } = useParams<{ id: string }>()
@@ -24,7 +26,17 @@ const TaskQuestions = () => {
     setSelectedQuestion,
     selectQuestionAt,
     updateQuestionStatus,
-  } = useLoadedTest()
+  } = useLoadedTest(useShallow((s) => {
+    return {
+      setLoadedTest: s.setLoadedTest,
+      initQuestions: s.initQuestions,
+      questions: s.questions,
+      selectedIndex: s.selectedIndex,
+      setSelectedQuestion: s.setSelectedQuestion,
+      selectQuestionAt: s.selectQuestionAt,
+      updateQuestionStatus: s.updateQuestionStatus,
+    }
+  }))
   const [test, setTest] = useState<TransformedTest | null>(null)
   const [subjectId, setSubjectId] = useState<string | null>(null)
   const topRef = useRef<HTMLDivElement>(null)
@@ -85,32 +97,38 @@ const TaskQuestions = () => {
       }
     }
     fetchTest()
-  }, [id])
+  }, [id, initQuestions, setLoadedTest])
 
 
-  return <>
-    <div ref={topRef} className="border-line bg-white p-8">
-      <div className="flex items-center justify-between">
-        <Breadcrum items={[{ label: "Dashboard" }, { label: "Test List" }]} />
-        <PublishBtn id={id} subjectId={subjectId} />
-      </div>
-
-      <Empty isLoading={isLoading} error={error} />
-
-      <TaskPreviewHeader />
-
-
-      {!isLoading && test && !error ? (
-        <div className="mt-8 border-t border-line pt-8">
-          <QuestionEditor
-            onChange={setSelectedQuestion}
-            onSubmit={handleSubmitQuestion}
-            subjectId={subjectId}
-          />
+  return (
+    <>
+      <Seo
+        title={test ? `${test.name} Questions | Preproute` : "Test Questions | Preproute"}
+        description="Add and manage questions for your prep test before publishing."
+        path={id ? `/test/${id}/questions` : "/test/questions"}
+      />
+      <div ref={topRef} className="border-line bg-white p-8">
+        <div className="flex items-center justify-between">
+          <Breadcrum items={[{ label: "Dashboard" }, { label: "Test List" }]} />
+          <PublishBtn id={id} subjectId={subjectId} />
         </div>
-      ) : null}
-    </div>
-  </>
+
+        <Empty isLoading={isLoading} error={error} />
+
+        {!isLoading && <TaskPreviewHeader />}
+
+        {!isLoading && test && !error ? (
+          <div className="mt-8 border-t border-line pt-8">
+            <QuestionEditor
+              onChange={setSelectedQuestion}
+              onSubmit={handleSubmitQuestion}
+              subjectId={subjectId}
+            />
+          </div>
+        ) : null}
+      </div>
+    </>
+  )
 }
 
 export default TaskQuestions

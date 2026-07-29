@@ -3,6 +3,8 @@ import { Trash2 } from "lucide-react"
 import DifficultyLevel from "@/components/difficulty-level"
 import Topic from "@/components/topic"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Field, FieldLabel } from "@/components/ui/field"
 
 import { useNavigate } from "react-router"
 import Answers from "./answers"
@@ -14,6 +16,7 @@ import {
 import RichTextEditor from "./rich-text-editor"
 import Heading from "./heading"
 import useLoadedTest from "@/store/useLoadedTest"
+import { useShallow } from "zustand/react/shallow"
 
 type QuestionEditorProps = {
   onChange: (next: QuestionDraft) => void
@@ -36,7 +39,12 @@ const QuestionEditor = ({
   const {
     selectedQuestion,
     resetSelectedQuestion,
-  } = useLoadedTest()
+  } = useLoadedTest(useShallow((s) => {
+    return {
+      selectedQuestion: s.selectedQuestion,
+      resetSelectedQuestion: s.resetSelectedQuestion,
+    }
+  }));
 
 
   const patch = (partial: Partial<QuestionDraft>) =>
@@ -117,6 +125,32 @@ const QuestionEditor = ({
           value={selectedQuestion?.topic ?? []}
           onChange={(topicIds) => patch({ topic: topicIds })}
         />
+
+        {/* Media URL (optional) */}
+        <Field className="space-y-2">
+          <FieldLabel htmlFor="media-url" className={labelClass}>
+            Media URL{" "}
+            <span className="font-normal text-placeholder">(optional)</span>
+          </FieldLabel>
+          <Input
+            id="media-url"
+            type="url"
+            value={selectedQuestion?.media_url ?? ""}
+            onChange={(event) => patch({ media_url: event.target.value })}
+            placeholder="https://example.com/image.png"
+            className={controlClass}
+          />
+          {selectedQuestion?.media_url ? (
+            <img
+              src={selectedQuestion.media_url}
+              alt="Question media preview"
+              className="mt-2 max-h-48 rounded-xl border border-line object-contain"
+              onError={(event) => {
+                event.currentTarget.style.display = "none"
+              }}
+            />
+          ) : null}
+        </Field>
 
         {/* TODO:// */}
         {/* <div className="space-y-2">

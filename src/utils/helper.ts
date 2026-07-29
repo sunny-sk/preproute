@@ -25,7 +25,7 @@ export const logout = () => {
 
 export const getSafeRedirectPath = (
   raw: string | null,
-  fallback = "/test/create"
+  fallback = "/test/dashboard"
 ) => {
   if (!raw) return fallback
   let decoded: string

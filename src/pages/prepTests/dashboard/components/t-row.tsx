@@ -43,10 +43,10 @@ const TRow = ({ test, onDeleted, className = "", ...rest }: TRowProps) => {
           to={
             isPublished
               ? `/test/${test.id}/preview`
-              : `/test/${test.id}/edit`
+              : `/test/${test.id}/questions`
           }
         >
-          <RowAction label="View" onClick={() => {}}>
+          <RowAction label="View" onClick={() => { }}>
             <Eye size={16} />
           </RowAction>
         </Link>

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router"
 
 import Breadcrum from "@/components/breadcrum"
+import Seo from "@/components/seo"
 import { Button } from "@/components/ui/button"
 import { TEST_STATUS_META } from "@/constant"
 import { getAllTestsApi } from "@/services/tests"
@@ -70,8 +71,14 @@ const TaskDashboard = () => {
   const isEmpty = !loading && filteredTests.length === 0
 
   return (
-    <div className="border-line bg-white p-8">
-      <Breadcrum items={[{ label: "Dashboard" }, { label: "Test List" }]} />
+    <>
+      <Seo
+        title="Test Dashboard | Preproute"
+        description="View, search, filter, and manage all your created prep tests in one place."
+        path="/test/dashboard"
+      />
+      <div className="border-line bg-white p-8">
+        <Breadcrum items={[{ label: "Dashboard" }, { label: "Test List" }]} />
 
       {/* Page heading */}
       <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -124,29 +131,30 @@ const TaskDashboard = () => {
       </div>
 
       {/* Cards (small screens) */}
-      <div className="mt-6 md:hidden">
-        {loading ? (
-          <div className="space-y-3">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <TRowMobSkeleton key={i} />
-            ))}
-          </div>
-        ) : isEmpty ? (
-          <div className="rounded-xl border border-line bg-white">
-            <EmptyState
-              title={hasFilters ? "No matching tests" : "No tests yet"}
-              description={
-                hasFilters
-                  ? "Try adjusting your search or status filter."
-                  : "Create your first test to get started."
-              }
-            />
-          </div>
-        ) : (
-          <TVirtualCards tests={filteredTests} onDeleted={handleDeleted} />
-        )}
+        <div className="mt-6 md:hidden">
+          {loading ? (
+            <div className="space-y-3">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <TRowMobSkeleton key={i} />
+              ))}
+            </div>
+          ) : isEmpty ? (
+            <div className="rounded-xl border border-line bg-white">
+              <EmptyState
+                title={hasFilters ? "No matching tests" : "No tests yet"}
+                description={
+                  hasFilters
+                    ? "Try adjusting your search or status filter."
+                    : "Create your first test to get started."
+                }
+              />
+            </div>
+          ) : (
+            <TVirtualCards tests={filteredTests} onDeleted={handleDeleted} />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

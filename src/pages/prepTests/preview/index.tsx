@@ -1,4 +1,5 @@
 import Breadcrum from "@/components/breadcrum"
+import Seo from "@/components/seo"
 import { fetchBulkQuestionsApi, getTestByIdApi } from "@/services/tests"
 import type { Question, TransformedTest } from "@/types"
 import { getApiErrorMessage } from "@/utils/helper"
@@ -71,39 +72,46 @@ const TestPreview = () => {
   }, [id])
 
   return (
-    <div className="border-line bg-white p-8">
-      <Breadcrum
-        items={[
-          { label: "Dashboard", href: "/test/dashboard" },
-          { label: "Preview" },
-        ]}
+    <>
+      <Seo
+        title={test ? `${test.name} Preview | Preproute` : "Test Preview | Preproute"}
+        description="Review test questions and structure before going live."
+        path={id ? `/test/${id}/preview` : "/test/preview"}
       />
+      <div className="border-line bg-white p-8">
+        <Breadcrum
+          items={[
+            { label: "Dashboard", href: "/test/dashboard" },
+            { label: "Preview" },
+          ]}
+        />
 
-      <Empty isLoading={isLoading} error={error} />
+        <Empty isLoading={isLoading} error={error} />
 
-      {!isLoading && test && !error ? (
-        <>
-          <TaskPreviewHeader test={test} readOnly />
+        {!isLoading && test && !error ? (
+          <>
+            <TaskPreviewHeader test={test} readOnly />
 
-          <div className="mt-8 space-y-6 border-t border-line pt-8">
-            {questions.length ? (
-              questions.map((question, i) => (
-                <QuestionView
-                  key={question.id ?? i}
-                  index={i + 1}
-                  total={questions.length}
-                  question={question}
-                />
-              ))
-            ) : (
-              <p className="py-12 text-center text-sm text-body-subtle">
-                No questions to preview.
-              </p>
-            )}
-          </div>
-        </>
-      ) : null}
-    </div>
+            <div className="mt-8 space-y-6 border-t border-line pt-8">
+              {questions.length ? (
+                questions.map((question, i) => (
+                  <QuestionView
+                    key={question.id ?? i}
+                    index={i + 1}
+                    total={questions.length}
+                    question={question}
+                  />
+                ))
+              ) : (
+                <p className="py-12 text-center text-sm text-body-subtle">
+                  No questions to preview.
+                </p>
+              )}
+            </div>
+          </>
+        ) : null}
+      </div>
+    </>
   )
 }
 

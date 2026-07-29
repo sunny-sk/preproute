@@ -21,6 +21,7 @@ export type PreviewQuestion = {
   correct_option?: string
   explanation?: string
   difficulty?: TestDifficulty | ""
+  media_url?: string
 }
 
 const DIFFICULTY_META: Record<
@@ -74,6 +75,18 @@ const QuestionView = ({ index, total, question }: QuestionViewProps) => {
       ) : (
         <p className="mt-4 text-sm text-placeholder">No question text</p>
       )}
+
+      {/* Attached media */}
+      {question.media_url ? (
+        <img
+          src={question.media_url}
+          alt={`Media for question ${index}`}
+          className="mt-4 max-h-72 rounded-xl border border-line object-contain"
+          onError={(event) => {
+            event.currentTarget.style.display = "none"
+          }}
+        />
+      ) : null}
 
       {/* Options — the correct one is highlighted. */}
       <div className="mt-6 space-y-3">

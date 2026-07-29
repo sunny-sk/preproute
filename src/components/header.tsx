@@ -10,7 +10,7 @@ import { logout } from "@/utils/helper"
 import useUser from "@/store/useUser"
 
 const Header = () => {
-  const { user } = useUser()
+  const user = useUser(s => s.user)
   const USER_NAME = user?.name
   const USER_ROLE = user?.role
   return (

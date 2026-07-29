@@ -13,6 +13,9 @@ type TRowMobProps = {
 }
 
 const TRowMob = ({ test, onDeleted }: TRowMobProps) => {
+  const isPublished = ["scheduled", "published", "live"].includes(
+    test.status ?? ""
+  )
   return (
     <div
       key={test.id}
@@ -33,14 +36,20 @@ const TRowMob = ({ test, onDeleted }: TRowMobProps) => {
           Created {formatDate(test.created_at)}
         </span>
         <div className="flex items-center gap-1">
-          <Link to={`/test/${test.id}/questions`}>
+          <Link to={
+            isPublished
+              ? `/test/${test.id}/preview`
+              : `/test/${test.id}/questions`
+          }>
             <RowAction label="View" onClick={() => { }}>
               <Eye size={16} />
             </RowAction>
           </Link>
-          <RowAction label="Edit" onClick={() => { }}>
-            <Pencil size={16} />
-          </RowAction>
+          <Link to={`/test/${test.id}/edit`}>
+            <RowAction label="Edit" onClick={() => { }}>
+              <Pencil size={16} />
+            </RowAction>
+          </Link>
           <DeleteTestButton test={test} onDeleted={onDeleted} />
         </div>
       </div>

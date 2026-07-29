@@ -37,15 +37,6 @@ const Subjects = ({
     ? (subjects.find((subject) => subject.id === value)?.name ?? undefined)
     : undefined
 
-  const init = async () => {
-    setLoading(true)
-    const response = await getSubjectsApi()
-    if (response.status === "success") {
-      setSubjects(response.data)
-    }
-    setLoading(false)
-  }
-
   const onChangeHandler = (subjectName: string | null) => {
     const subjectId = subjectName
       ? (subjects.find((subject) => subject.name === subjectName)?.id ??
@@ -55,7 +46,17 @@ const Subjects = ({
   }
 
   useEffect(() => {
-    init()
+    let active = true
+    getSubjectsApi().then((response) => {
+      if (!active) return
+      if (response.status === "success") {
+        setSubjects(response.data)
+      }
+      setLoading(false)
+    })
+    return () => {
+      active = false
+    }
   }, [])
 
   return (

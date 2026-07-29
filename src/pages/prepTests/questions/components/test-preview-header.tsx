@@ -7,6 +7,7 @@ import {
   Plus,
 } from "lucide-react"
 import { Link } from "react-router"
+import { useShallow } from "zustand/react/shallow"
 
 const TEST_TYPE_LABELS: Record<TestType, string> = {
   [TestType.CHAPTERWISE]: "Chapter Wise",
@@ -40,7 +41,13 @@ const TestPreviewHeader = ({
   test,
   readOnly = false,
 }: TestPreviewHeaderProps) => {
-  const { loadedTest: storeTest, testId, selectedQuestion } = useLoadedTest();
+  const { loadedTest: storeTest, testId, selectedQuestion } = useLoadedTest(useShallow((s) => {
+    return {
+      loadedTest: s.loadedTest,
+      testId: s.testId,
+      selectedQuestion: s.selectedQuestion,
+    }
+  }));
 
   const loadedTest = test ?? storeTest
 

@@ -107,6 +107,7 @@ export type BulkQuestionPayload = {
   correct_option: string
   explanation?: string
   difficulty?: TestDifficulty
+  media_url?: string
   test_id: string
   subject: string
 }

@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import Seo from "@/components/seo"
 import { toast } from "@/components/ui/toast"
 import { loginApi } from "@/services/auth"
 import useUser from "@/store/useUser"
@@ -54,24 +55,30 @@ const LoginPage = () => {
     }
   }
   return (
-    <section className="w-full bg-canvas">
-      <div className="grid min-h-screen grid-cols-1 rounded-lg md:grid-cols-2">
-        <div className="hidden items-center justify-center rounded-l-lg bg-canvas p-8 md:flex">
-          <img
-            src="/login-left-image.svg"
-            alt="Login side illustration"
-            className="w-full max-w-md"
-          />
-        </div>
+    <>
+      <Seo
+        title="Login | Preproute"
+        description="Log in to Preproute to create, manage, and preview your prep tests."
+        path="/login"
+      />
+      <section className="w-full bg-canvas">
+        <div className="grid min-h-screen grid-cols-1 rounded-lg md:grid-cols-2">
+          <div className="hidden items-center justify-center rounded-l-lg bg-canvas p-8 md:flex">
+            <img
+              src="/login-left-image.svg"
+              alt="Login side illustration"
+              className="w-full max-w-md"
+            />
+          </div>
 
-        <div className="flex items-center justify-center p-4">
-          <div className="flex h-full w-full items-center justify-center rounded-lg border bg-white p-6 sm:p-10">
-            <div className="w-[80%]">
-              <img
-                src="/preproute-logo.svg"
-                alt="PrepRoute logo"
-                className="h-8 w-auto"
-              />
+          <div className="flex items-center justify-center p-4">
+            <div className="flex h-full w-full items-center justify-center rounded-lg border bg-white p-6 sm:p-10">
+              <div className="w-[80%]">
+                <img
+                  src="/preproute-logo.svg"
+                  alt="PrepRoute logo"
+                  className="h-8 w-auto"
+                />
 
               <h1 className="mt-6 text-[1.75rem] leading-none font-medium text-heading">
                 Login
@@ -157,11 +164,12 @@ const LoginPage = () => {
                   {form.formState.isSubmitting && <Loader2Icon className="animate-spin" aria-hidden="true" />} Login
                 </Button>
               </form>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }
 

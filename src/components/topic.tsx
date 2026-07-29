@@ -32,23 +32,26 @@ const Topic = ({
   errors,
 }: TopicProps) => {
   const [topics, setTopics] = useState<TopicResponse["data"]>([])
-  const [loading, setLoading] = useState(false)
+  const [loadedFor, setLoadedFor] = useState<string | null>(null)
 
-  const init = async () => {
-    if (!subjectId) {
-      setLoading(false)
-      return;
-    }
-    setLoading(true)
-    const response = await getTopicsApi(subjectId as string)
-    if (response.status === "success") {
-      setTopics(response.data)
-    }
-    setLoading(false)
-  }
+  // Derived so we never call setState synchronously inside the effect: a skeleton
+  // shows whenever a subject is selected but its topics have not loaded yet.
+  const loading = !!subjectId && loadedFor !== subjectId
+  const options = subjectId ? topics : []
 
   useEffect(() => {
-    init()
+    if (!subjectId) return
+    let active = true
+    getTopicsApi(subjectId).then((response) => {
+      if (!active) return
+      if (response.status === "success") {
+        setTopics(response.data)
+      }
+      setLoadedFor(subjectId)
+    })
+    return () => {
+      active = false
+    }
   }, [subjectId])
 
   return (
@@ -72,7 +75,7 @@ const Topic = ({
             <SelectValue placeholder="Choose from Drop-down">
               {(selected: string[]) =>
                 selected.length
-                  ? topics
+                  ? options
                     .filter((topic) => selected.includes(topic.id))
                     .map((topic) => topic.name)
                     .join(", ")
@@ -81,7 +84,7 @@ const Topic = ({
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
-            {topics.map((topic) => (
+            {options.map((topic) => (
               <SelectItem key={topic.id} value={topic.id}>
                 {topic.name}
               </SelectItem>

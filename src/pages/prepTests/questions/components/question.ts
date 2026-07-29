@@ -24,6 +24,7 @@ export type QuestionDraft = {
   difficulty: TestDifficulty | ""
   topic: string[]
   sub_topic: string
+  media_url: string
 }
 
 /** A blank question for slot `id`. */
@@ -40,6 +41,7 @@ export const createEmptyQuestion = (id: number): QuestionDraft => ({
   difficulty: "",
   topic: [],
   sub_topic: "",
+  media_url: "",
 })
 
 /**
