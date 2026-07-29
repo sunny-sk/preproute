@@ -1,7 +1,7 @@
 import axios from "axios"
 
 // Relative by default so requests are same-origin and proxied to the backend
-export const BASE_URL = import.meta.env.VITE_API_URL || "https://admin-moderator-backend-staging.up.railway.app/api"
+export const BASE_URL =  "/api"
 
 export const URLS = {
   LOGIN: `/auth/login`,
