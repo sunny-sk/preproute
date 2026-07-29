@@ -1,5 +1,5 @@
 import axios from "axios"
-export const BASE_URL = import.meta.env.VITE_API_URL || "/api"
+export const BASE_URL = import.meta.env.VITE_API_URL || "https://admin-moderator-backend-staging.up.railway.app/api"
 
 export const URLS = {
   LOGIN: `/auth/login`,
