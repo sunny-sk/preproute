@@ -6,8 +6,8 @@ export const BASE_URL =  "/api"
 export const URLS = {
   LOGIN: `/auth/login`,
   SUBJECTS: `/subjects`,
-  TOPICS: `/topics/subject/:subjectId`, // `/topics/subject/:subjectId`
-  SUB_TOPICS: `/sub-topics/topic/:topicId`, // `/subtopics/topic/:topicId`
+  TOPICS: `/topics/subject/:subjectId`,
+  SUB_TOPICS: `/sub-topics/topic/:topicId`,
   ALL_TESTS: `/tests`,
   CREATE_TEST: `/tests`,
   GET_TEST_BY_ID: `/tests/:id`,

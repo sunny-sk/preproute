@@ -18,7 +18,7 @@ import {
   Underline,
 } from "lucide-react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/utils/utils"
 
 type RichTextEditorProps = {
   value?: string

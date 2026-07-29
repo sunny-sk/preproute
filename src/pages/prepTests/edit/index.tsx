@@ -46,8 +46,6 @@ const TestEdit = () => {
       setIsLoading(true)
       setError(null)
       try {
-        // getTestForEditApi resolves the subject/topic/sub-topic names the API
-        // returns into the ids the form's selects use, so it pre-fills cleanly.
         const formValues = await getTestForEditApi(id)
         setTest(formValues)
       } catch (err) {
