@@ -1,4 +1,5 @@
-import type { Test } from "@/types"
+import type { QuestionDraft } from "@/pages/prepTests/questions/components/question"
+import type { BulkQuestionPayload, Test } from "@/types"
 import type { CreateTest, CreateTestPayload } from "@/validations"
 
 export const calcTotalMarks = (noOfQuestions: number, correctAnswer: number) =>
@@ -20,6 +21,33 @@ export const buildTestPayload = (values: CreateTest): CreateTestPayload => ({
   total_questions: values.noOfQuestions,
   status: values.status,
 })
+
+/** Maps the local question drafts into the `POST /questions/bulk` payload. */
+export const buildBulkQuestionsPayload = (
+  questions: QuestionDraft[],
+  testId: string,
+  subjectId: string
+): BulkQuestionPayload[] =>
+  questions.map((q) => {
+    const temp: BulkQuestionPayload = {
+      type: "mcq",
+      question: q.question,
+      option1: q.option1,
+      option2: q.option2,
+      option3: q.option3,
+      option4: q.option4,
+      correct_option: q.correct_option,
+      test_id: testId,
+      subject: subjectId,
+    }
+    if (q.explanation) {
+      temp.explanation = q.explanation
+    }
+    if (q.difficulty) {
+      temp.difficulty = q.difficulty
+    }
+    return temp
+  })
 
 /**
  * Maps a test returned by the API back into the shape the form works with.
@@ -44,3 +72,33 @@ export const mapTestToForm = (
   duration: test.total_time,
   status: test.status,
 })
+
+export const transformTestResponse = (test: Test) => {
+  if (!test.id) return null
+  return {
+    id: test.id,
+    name: test.name,
+    type: test.type,
+    subject: test.subject,
+    topics: test.topics,
+    subTopics: test.sub_topics,
+    questions: test.questions,
+    correctMarks: test.correct_marks,
+    unattemptMarks: test.unattempt_marks,
+    wrongMarks: test.wrong_marks,
+    difficulty: test.difficulty,
+    totalMarks: test.total_marks,
+    totalTime: test.total_time,
+    totalQuestions: test.total_questions,
+    slot: test.slot,
+    hiddenFromModerator: test.hidden_from_moderator,
+    createdBy: test.created_by,
+    createdAt: test.created_at,
+    updatedBy: test.updated_by,
+    updatedAt: test.updated_at,
+    paragraphQuestion: test.paragraph_question,
+    status: test.status,
+    scheduledDate: test.scheduled_date,
+    expiryDate: test.expiry_date,
+  }
+}

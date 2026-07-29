@@ -29,8 +29,8 @@ const LoginPage = () => {
   const form = useForm<LoginFormSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      userId: "vedant-admin",
-      password: "vedant123",
+      userId: "",
+      password: "",
     },
   })
   const onSubmit = async (data: LoginFormSchema) => {

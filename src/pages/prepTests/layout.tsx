@@ -33,7 +33,8 @@ const SECONDARY_SIDEBAR_WIDTH = "w-[210px]"
 
 const TestLayout = () => {
   const { pathname } = useLocation()
-  const { loadedTest, selectedQuestion, selectQuestion } = useLoadedTest()
+  const { loadedTest, questions, selectedQuestion, selectQuestion, updateQuestionStatus } =
+    useLoadedTest()
 
   const isSecondarySidebarVisible = loadedTest && pathname.includes("/questions")
   const leftPanelWidthClass = isSecondarySidebarVisible
@@ -97,17 +98,26 @@ const TestLayout = () => {
 
                 <div className="space-y-1.5">
                   {Array.from({ length: loadedTest?.totalQuestions || 0 }, (_, index) => index + 1).map((question) => {
+                    const isCompleted =
+                      questions.find((q) => q.id === question)?.status === "completed"
                     return (
                       <button
-                        onClick={() => selectQuestion(question)}
+                        onClick={() => {
+                          // Save the current question's status before jumping away.
+                          updateQuestionStatus()
+                          selectQuestion(question)
+                        }}
                         key={question}
                         type="button"
                         className={
-                          `flex w-full items-center justify-between rounded-md border bg-white ${selectedQuestion?.id === question ? "border-green-300" : ""} px-2.5 py-1.5 text-left text-xs text-[#4f5f7f]`
+                          `flex w-full items-center justify-between rounded-md border ${isCompleted ? "bg-green-100" : "bg-gray-50"} ${selectedQuestion?.id === question ? "border-green-400" : ""} px-2.5 py-1.5 text-left text-xs text-[#4f5f7f]`
                         }
                       >
                         <span className="flex items-center gap-2">
-                          <CircleCheck size={13} className="text-[#2ab37f]" />
+                          <CircleCheck
+                            size={13}
+                            className={isCompleted ? "text-[#2ab37f]" : "text-[#c3cbdd]"}
+                          />
                           Question {question}
                         </span>
                         <span className="text-[#8f9bb8]">››</span>

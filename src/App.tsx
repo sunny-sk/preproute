@@ -1,16 +1,16 @@
-import { Routes, Route, Navigate } from "react-router"
-import Login from "./pages/login"
-import NotFound from "./pages/notFound"
 import { Toaster } from "@/components/ui/toast"
 import ProtectedRoute from "@/guards/protected-route"
-import TaskLayout from "./pages/prepTests/layout"
-import TaskDashboard from "./pages/prepTests/dashboard"
+import { Navigate, Route, Routes } from "react-router"
+import Login from "./pages/login"
+import NotFound from "./pages/notFound"
 import TaskCreate from "./pages/prepTests/create"
+import TaskDashboard from "./pages/prepTests/dashboard"
 import TaskEdit from "./pages/prepTests/edit"
-import TaskTracking from "./pages/prepTests/tracking"
+import TaskLayout from "./pages/prepTests/layout"
 import TaskQuestions from "./pages/prepTests/questions"
+import TaskTracking from "./pages/prepTests/tracking"
 
-export function App() {
+const App = () => {
   return (
     <>
       <Routes>

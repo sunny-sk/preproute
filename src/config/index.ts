@@ -13,6 +13,7 @@ export const URLS = {
   GET_TEST_BY_ID: `/tests/:id`,
   UPDATE_TEST: `/tests/:id`,
   DELETE_TEST: `/tests/:id`,
+  BULK_CREATE_QUESTIONS: `/questions/bulk`,
 }
 
 export const USER_AUTH_KEY =

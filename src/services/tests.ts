@@ -1,6 +1,8 @@
 import { api, USER_AUTH_KEY } from "@/config"
 import { URLS } from "@/config"
 import type {
+  BulkQuestionPayload,
+  BulkQuestionsResponse,
   SubjectResponse,
   SubTopicResponse,
   TestResponse,
@@ -106,10 +108,25 @@ export const deleteTestApi = async (id: string) => {
   return response.data
 }
 
-export const publishTestApi = async (id: string) => {
+export const bulkCreateQuestionsApi = async (
+  questions: BulkQuestionPayload[]
+) => {
+  const response = await api.post<BulkQuestionsResponse>(
+    URLS.BULK_CREATE_QUESTIONS,
+    { questions },
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  )
+  return response.data
+}
+
+export const publishTestApi = async (id: string, questionIds: string[]) => {
   const response = await api.put<TestResponse>(
     URLS.UPDATE_TEST.replace(":id", id),
-    { status: "live" },
+    { questions: questionIds, status: "live" },
     {
       headers: {
         Authorization: `Bearer ${getToken()}`,

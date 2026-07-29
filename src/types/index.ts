@@ -96,6 +96,26 @@ export type Test = {
 export type TestResponse = ApiResponse<Test>
 export type TestsResponse = ApiResponse<Test[]>
 
+/** A single question in the `POST /questions/bulk` request body. */
+export type BulkQuestionPayload = {
+  type: "mcq"
+  question: string
+  option1: string
+  option2: string
+  option3: string
+  option4: string
+  correct_option: string
+  explanation?: string
+  difficulty?: TestDifficulty
+  test_id: string
+  subject: string
+}
+
+/** A question echoed back by the bulk-create endpoint (id plus stored fields). */
+export type CreatedQuestion = { id: string } & Record<string, unknown>
+
+export type BulkQuestionsResponse = ApiResponse<CreatedQuestion[]>
+
 
 export type TransformedTest = {
   id: string

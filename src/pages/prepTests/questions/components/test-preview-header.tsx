@@ -30,10 +30,10 @@ interface TestPreviewHeaderProps {
   onImportCsv?: () => void
 }
 
-function TestPreviewHeader({
+const TestPreviewHeader = ({
   onAddMcq,
   onImportCsv,
-}: TestPreviewHeaderProps) {
+}: TestPreviewHeaderProps) => {
   const { loadedTest, testId, selectedQuestion } = useLoadedTest();
 
   if (!loadedTest) return null
@@ -85,7 +85,7 @@ function TestPreviewHeader({
             <DetailRow label="Topic">
               <div className="flex flex-wrap gap-2">
                 {loadedTest.topics.map((name) => (
-                  <Badge variant="outline" className="border-[#f3d283] rounded-md text-[#d99e1f]">{name}</Badge>
+                  <Badge key={name} variant="outline" className="border-[#f3d283] rounded-md text-[#d99e1f]">{name}</Badge>
                 ))}
               </div>
             </DetailRow>
@@ -93,7 +93,7 @@ function TestPreviewHeader({
             <DetailRow label="Sub Topic">
               <div className="flex flex-wrap gap-2">
                 {loadedTest.subTopics.map((name) => (
-                  <Badge variant="outline" className="border-[#f3d283] rounded-md text-[#d99e1f]">{name}</Badge>
+                  <Badge key={name} variant="outline" className="border-[#f3d283] rounded-md text-[#d99e1f]">{name}</Badge>
                 ))}
               </div>
             </DetailRow>
