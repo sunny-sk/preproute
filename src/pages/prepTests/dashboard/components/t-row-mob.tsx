@@ -1,4 +1,5 @@
 import { Eye, Pencil } from "lucide-react"
+import { memo } from "react"
 import StatusBadge from "./status-badge"
 import DeleteTestButton from "./delete-test-button"
 import type { Test } from "@/types"
@@ -18,9 +19,9 @@ const TRowMob = ({ test, onDeleted }: TRowMobProps) => {
       className="rounded-xl border border-line bg-white p-4"
     >
       <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-sm font-medium text-body">{test.name}</p>
-          <p className="mt-0.5 text-xs text-placeholder">
+        <div className="min-w-0">
+          <p className="truncate text-sm font-medium text-body">{test.name}</p>
+          <p className="mt-0.5 truncate text-xs text-placeholder">
             {test.subject} · {test.questions?.length} Questions ·{" "}
             {test.total_time} min
           </p>
@@ -47,7 +48,7 @@ const TRowMob = ({ test, onDeleted }: TRowMobProps) => {
   )
 }
 
-export default TRowMob
+export default memo(TRowMob)
 
 type RowActionProps = {
   label: string

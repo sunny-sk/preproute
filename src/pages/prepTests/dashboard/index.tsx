@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react"
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router"
 
 import Breadcrum from "@/components/breadcrum"
@@ -10,10 +10,10 @@ import type { Test } from "@/types"
 import EmptyState from "./components/empty"
 import TFilters, { ALL_STATUSES } from "./components/t-filters"
 import THead from "./components/t-head"
-import TRow from "./components/t-row"
-import TRowMob from "./components/t-row-mob"
 import TRowSkeleton from "./components/t-row-skeleton"
 import TRowMobSkeleton from "./components/t-row-mob-skeleton"
+import TVirtualTable from "./components/t-virtual-table"
+import TVirtualCards from "./components/t-virtual-cards"
 
 const statusLabel = (test: Test) =>
   TEST_STATUS_META[test.status ?? "no-status"].label
@@ -28,8 +28,11 @@ const TaskDashboard = () => {
 
   const handleCreate = () => navigate("/test/create")
 
-  const handleDeleted = (id: string) =>
-    setTests((prev) => prev.filter((test) => test.id !== id))
+  // Stable identity so the memoized rows don't re-render on every scroll tick.
+  const handleDeleted = useCallback(
+    (id: string) => setTests((prev) => prev.filter((test) => test.id !== id)),
+    []
+  )
 
   useEffect(() => {
     const init = async () => {
@@ -100,45 +103,35 @@ const TaskDashboard = () => {
       {/* Table (md and up) */}
       <div className="mt-6 hidden overflow-hidden rounded-xl border border-line bg-white md:block">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px] border-collapse text-left">
+          <div className="min-w-[720px]">
             <THead />
-            <tbody className="divide-y divide-line">
-              {loading
-                ? Array.from({ length: 6 }).map((_, i) => (
-                    <TRowSkeleton key={i} />
-                  ))
-                : filteredTests.map((test) => (
-                    <TRow
-                      key={test.id}
-                      test={test}
-                      onDeleted={handleDeleted}
-                    />
-                  ))}
-            </tbody>
-          </table>
+            {loading ? (
+              Array.from({ length: 6 }).map((_, i) => <TRowSkeleton key={i} />)
+            ) : isEmpty ? (
+              <EmptyState
+                title={hasFilters ? "No matching tests" : "No tests yet"}
+                description={
+                  hasFilters
+                    ? "Try adjusting your search or status filter."
+                    : "Create your first test to get started."
+                }
+              />
+            ) : (
+              <TVirtualTable tests={filteredTests} onDeleted={handleDeleted} />
+            )}
+          </div>
         </div>
-
-        {isEmpty ? (
-          <EmptyState
-            title={hasFilters ? "No matching tests" : "No tests yet"}
-            description={
-              hasFilters
-                ? "Try adjusting your search or status filter."
-                : "Create your first test to get started."
-            }
-          />
-        ) : null}
       </div>
 
       {/* Cards (small screens) */}
-      <div className="mt-6 space-y-3 md:hidden">
-        {loading
-          ? Array.from({ length: 4 }).map((_, i) => <TRowMobSkeleton key={i} />)
-          : filteredTests.map((test) => (
-              <TRowMob key={test.id} test={test} onDeleted={handleDeleted} />
+      <div className="mt-6 md:hidden">
+        {loading ? (
+          <div className="space-y-3">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <TRowMobSkeleton key={i} />
             ))}
-
-        {isEmpty ? (
+          </div>
+        ) : isEmpty ? (
           <div className="rounded-xl border border-line bg-white">
             <EmptyState
               title={hasFilters ? "No matching tests" : "No tests yet"}
@@ -149,7 +142,9 @@ const TaskDashboard = () => {
               }
             />
           </div>
-        ) : null}
+        ) : (
+          <TVirtualCards tests={filteredTests} onDeleted={handleDeleted} />
+        )}
       </div>
     </div>
   )

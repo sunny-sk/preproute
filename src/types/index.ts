@@ -116,6 +116,25 @@ export type CreatedQuestion = { id: string } & Record<string, unknown>
 
 export type BulkQuestionsResponse = ApiResponse<CreatedQuestion[]>
 
+/** A stored question as returned by `POST /questions/fetchBulk`. */
+export type Question = {
+  id: string
+  type: string
+  question: string
+  option1: string
+  option2: string
+  option3: string
+  option4: string
+  correct_option: string
+  explanation?: string
+  difficulty?: TestDifficulty
+  test_id?: string
+  subject?: string
+  media_url?: string
+}
+
+export type FetchBulkQuestionsResponse = ApiResponse<Question[]>
+
 
 export type TransformedTest = {
   id: string

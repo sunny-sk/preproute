@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge"
 import useLoadedTest from "@/store/useLoadedTest"
-import { TestType, type TestDifficulty } from "@/types"
+import { TestType, type TestDifficulty, type TransformedTest } from "@/types"
 import {
   Download,
   Pencil,
@@ -28,13 +28,21 @@ interface TestPreviewHeaderProps {
   currentQuestion?: number
   onAddMcq?: () => void
   onImportCsv?: () => void
+  /** Render this test instead of the draft in the store (used by the preview screen). */
+  test?: TransformedTest
+  /** Hide the edit link and question toolbar for a read-only preview. */
+  readOnly?: boolean
 }
 
 const TestPreviewHeader = ({
   onAddMcq,
   onImportCsv,
+  test,
+  readOnly = false,
 }: TestPreviewHeaderProps) => {
-  const { loadedTest, testId, selectedQuestion } = useLoadedTest();
+  const { loadedTest: storeTest, testId, selectedQuestion } = useLoadedTest();
+
+  const loadedTest = test ?? storeTest
 
   if (!loadedTest) return null
 
@@ -48,7 +56,7 @@ const TestPreviewHeader = ({
           <span className="rounded-full bg-heading px-4 py-1.5 text-xs font-semibold text-white">
             {TEST_TYPE_LABELS[loadedTest.type]}
           </span>
-          {testId ? (
+          {!readOnly && testId ? (
             <Link
               to={`/test/${testId}/edit`}
               aria-label="Edit test"
@@ -114,21 +122,23 @@ const TestPreviewHeader = ({
       </div>
 
       {/* Question toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-lg font-semibold text-heading">
-          Question {selectedQuestion?.id}
-          <span className="text-brand-muted">/{loadedTest.totalQuestions}</span>
-        </p>
+      {!readOnly ? (
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-lg font-semibold text-heading">
+            Question {selectedQuestion?.id}
+            <span className="text-brand-muted">/{loadedTest.totalQuestions}</span>
+          </p>
 
-        <div className="flex items-center gap-3">
-          <ToolbarButton icon={<Plus size={16} />} onClick={onAddMcq}>
-            MCQ
-          </ToolbarButton>
-          <ToolbarButton icon={<Download size={16} />} onClick={onImportCsv}>
-            CSV
-          </ToolbarButton>
+          <div className="flex items-center gap-3">
+            <ToolbarButton icon={<Plus size={16} />} onClick={onAddMcq}>
+              MCQ
+            </ToolbarButton>
+            <ToolbarButton icon={<Download size={16} />} onClick={onImportCsv}>
+              CSV
+            </ToolbarButton>
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   )
 }

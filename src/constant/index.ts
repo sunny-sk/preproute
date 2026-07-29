@@ -47,7 +47,7 @@ export const TEST_STATUS_META: Record<
     dotClassName: "bg-violet",
   },
   "no-status": {
-    label: "Archived",
+    label: "N/A",
     className: "bg-surface-muted text-body-subtle",
     dotClassName: "bg-placeholder",
   },

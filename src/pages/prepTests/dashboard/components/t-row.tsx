@@ -1,49 +1,65 @@
 import { Eye, Pencil } from "lucide-react"
+import { memo } from "react"
 import StatusBadge from "./status-badge"
 import DeleteTestButton from "./delete-test-button"
 import type { Test } from "@/types"
 import { formatDate } from "@/utils/helper"
 import { Link } from "react-router"
+import { ROW_GRID } from "./columns"
 
 type TRowProps = {
   test: Test
   onDeleted: (id: string) => void
-}
+  // react-window passes `style` (absolute position + row height) and a set of
+  // aria attributes, spread onto the row root via `...rest`.
+} & React.HTMLAttributes<HTMLDivElement>
 
-const TRow = ({ test, onDeleted }: TRowProps) => {
+const TRow = ({ test, onDeleted, className = "", ...rest }: TRowProps) => {
+  const isPublished = ["scheduled", "published", "live"].includes(
+    test.status ?? ""
+  )
   return (
-    <tr key={test.id} className="transition-colors hover:bg-canvas">
-      <td className="px-3 py-4">
-        <p className="text-sm font-medium text-body">{test.name}</p>
-        <p className="mt-0.5 text-xs text-placeholder">
+    <div
+      {...rest}
+      className={`${ROW_GRID} h-full border-b border-line px-3 text-left transition-colors hover:bg-canvas ${className}`}
+    >
+      <div className="min-w-0">
+        <p className="truncate text-sm font-medium text-body">{test.name}</p>
+        <p className="mt-0.5 truncate text-xs text-placeholder">
           {test.questions?.length} Questions · {test.total_time} min
         </p>
-      </td>
-      <td className="px-3 py-4 text-sm text-body-muted">{test.subject}</td>
-      <td className="px-3 py-4">
+      </div>
+      <div className="min-w-0 truncate text-sm text-body-muted">
+        {test.subject}
+      </div>
+      <div>
         <StatusBadge status={test.status} />
-      </td>
-      <td className="px-3 py-4 text-sm text-body-muted">
+      </div>
+      <div className="text-sm text-body-muted">
         {formatDate(test.created_at)}
-      </td>
-      <td className="px-3 py-4">
-        <div className="flex items-center justify-end gap-1">
-          <Link to={`/test/${test.id}/questions`}>
-            <RowAction label="View" onClick={() => { }}>
-              <Eye size={16} />
-            </RowAction>
-          </Link>
-          <Link to={`/test/${test.id}/edit`}>
-            <Pencil size={16} />
-          </Link>
-          <DeleteTestButton test={test} onDeleted={onDeleted} />
-        </div>
-      </td>
-    </tr>
+      </div>
+      <div className="flex items-center justify-end gap-1">
+        <Link
+          to={
+            isPublished
+              ? `/test/${test.id}/preview`
+              : `/test/${test.id}/edit`
+          }
+        >
+          <RowAction label="View" onClick={() => {}}>
+            <Eye size={16} />
+          </RowAction>
+        </Link>
+        <Link to={`/test/${test.id}/edit`}>
+          <Pencil size={16} />
+        </Link>
+        <DeleteTestButton test={test} onDeleted={onDeleted} />
+      </div>
+    </div>
   )
 }
 
-export default TRow
+export default memo(TRow)
 
 type RowActionProps = {
   label: string

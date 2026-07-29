@@ -22,6 +22,7 @@ import React from "react"
 interface TaskFormInterface {
   defaultValues: CreateTest
   onSubmit: (values: CreateTest) => void
+  onSaveDraft?: (values: CreateTest) => void | Promise<void>
   formType: "create" | "edit"
 }
 
@@ -29,7 +30,12 @@ const labelClass = "mb-2 block text-sm font-medium text-body"
 const controlClass =
   "h-12 w-full rounded-lg border-line-strong px-4 text-sm text-body shadow-none placeholder:text-placeholder focus-visible:ring-2 data-[size=default]:h-12"
 
-const TaskForm = ({ defaultValues, onSubmit, formType }: TaskFormInterface) => {
+const TaskForm = ({
+  defaultValues,
+  onSubmit,
+  onSaveDraft,
+  formType,
+}: TaskFormInterface) => {
   const {
     handleSubmit,
     control,
@@ -41,6 +47,25 @@ const TaskForm = ({ defaultValues, onSubmit, formType }: TaskFormInterface) => {
     resolver: zodResolver(createTestValidationSchema),
     defaultValues: defaultValues,
   })
+
+  // Which action is in flight, so the spinner shows on the button that was clicked.
+  const [pendingAction, setPendingAction] = React.useState<
+    "next" | "draft" | null
+  >(null)
+
+  const runSubmit = (
+    action: "next" | "draft",
+    handler?: (values: CreateTest) => void | Promise<void>
+  ) =>
+    handleSubmit(async (values) => {
+      if (!handler) return
+      setPendingAction(action)
+      try {
+        await handler(values)
+      } finally {
+        setPendingAction(null)
+      }
+    })
 
   const type = useWatch({ control, name: "type" })
   const noOfQuestions = useWatch({ control, name: "noOfQuestions" })
@@ -69,7 +94,7 @@ const TaskForm = ({ defaultValues, onSubmit, formType }: TaskFormInterface) => {
       <form
         id="create-test-form"
         className="mt-8"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={runSubmit("next", onSubmit)}
       >
         <div className="grid grid-cols-1 gap-x-10 gap-y-6 md:grid-cols-2">
           {/* Subject */}
@@ -334,12 +359,28 @@ const TaskForm = ({ defaultValues, onSubmit, formType }: TaskFormInterface) => {
           >
             Cancel
           </Button>
+          {onSaveDraft ? (
+            <Button
+              type="button"
+              variant="outline"
+              disabled={isSubmitting}
+              onClick={runSubmit("draft", onSaveDraft)}
+              className="h-11 rounded-lg border-line-strong px-8 text-sm font-medium text-body"
+            >
+              {pendingAction === "draft" && (
+                <Loader2Icon className="animate-spin" aria-hidden="true" />
+              )}
+              Save as Draft
+            </Button>
+          ) : null}
           <Button
             type="submit"
             disabled={isSubmitting}
             className="h-11 rounded-lg px-10 text-sm font-medium"
           >
-            {isSubmitting && <Loader2Icon className="animate-spin" aria-hidden="true" />}
+            {pendingAction === "next" && (
+              <Loader2Icon className="animate-spin" aria-hidden="true" />
+            )}
             {formType === "edit" ? "Save" : "Next"}
           </Button>
         </div>

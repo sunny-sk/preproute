@@ -3,6 +3,7 @@ import { URLS } from "@/config"
 import type {
   BulkQuestionPayload,
   BulkQuestionsResponse,
+  FetchBulkQuestionsResponse,
   SubjectResponse,
   SubTopicResponse,
   TestResponse,
@@ -114,6 +115,19 @@ export const bulkCreateQuestionsApi = async (
   const response = await api.post<BulkQuestionsResponse>(
     URLS.BULK_CREATE_QUESTIONS,
     { questions },
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  )
+  return response.data
+}
+
+export const fetchBulkQuestionsApi = async (questionIds: string[]) => {
+  const response = await api.post<FetchBulkQuestionsResponse>(
+    URLS.FETCH_BULK_QUESTIONS,
+    { question_ids: questionIds },
     {
       headers: {
         Authorization: `Bearer ${getToken()}`,

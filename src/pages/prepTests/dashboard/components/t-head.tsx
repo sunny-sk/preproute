@@ -1,14 +1,16 @@
+import { ROW_GRID } from "./columns"
+
 const THead = () => {
   return (
-    <thead>
-      <tr className="border-b border-line bg-canvas text-xs font-semibold tracking-wide text-placeholder uppercase">
-        <th className="px-3 py-3.5">Test Name</th>
-        <th className="px-3 py-3.5">Subject</th>
-        <th className="px-3 py-3.5">Status</th>
-        <th className="px-3 py-3.5">Created Date</th>
-        <th className="px-3 py-3.5 text-right">Actions</th>
-      </tr>
-    </thead>
+    <div
+      className={`${ROW_GRID} border-b border-line bg-canvas px-3 py-3.5 text-xs font-semibold tracking-wide text-placeholder uppercase`}
+    >
+      <span>Test Name</span>
+      <span>Subject</span>
+      <span>Status</span>
+      <span>Created Date</span>
+      <span className="text-right">Actions</span>
+    </div>
   )
 }
 

@@ -36,9 +36,37 @@ const TaskCreate = () => {
     }
   }
 
+  // Persist the test as a draft and return to the dashboard instead of
+  // continuing to the questions step.
+  const onSaveDraft = async (values: CreateTest) => {
+    try {
+      const payload = buildTestPayload({ ...values, status: "draft" })
+
+      const response = await createTestApi(payload)
+      if (response.status === "success") {
+        toast.add({
+          title: "Draft saved",
+          description: response.message,
+        })
+        navigate("/test/dashboard")
+      } else {
+        toast.add({
+          title: "Failed to save draft",
+          description: response.message,
+        })
+      }
+    } catch (error) {
+      toast.add({
+        title: "Failed to save draft",
+        description: getApiErrorMessage(error),
+      })
+    }
+  }
+
   return (
     <TestForm
       onSubmit={onSubmit}
+      onSaveDraft={onSaveDraft}
       formType="create"
       defaultValues={{
         type: TestType.CHAPTERWISE,

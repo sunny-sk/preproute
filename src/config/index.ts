@@ -14,6 +14,7 @@ export const URLS = {
   UPDATE_TEST: `/tests/:id`,
   DELETE_TEST: `/tests/:id`,
   BULK_CREATE_QUESTIONS: `/questions/bulk`,
+  FETCH_BULK_QUESTIONS: `/questions/fetchBulk`,
 }
 
 export const USER_AUTH_KEY =
