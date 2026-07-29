@@ -1,9 +1,6 @@
-import React from 'react'
 
-const index = () => {
-  return (
-    <div>index</div>
-  )
+const NotFoundPage = () => {
+  return <div>Not Found</div>   
 }
 
-export default index
+export default NotFoundPage

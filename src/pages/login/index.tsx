@@ -13,16 +13,17 @@ import { useNavigate, useSearchParams } from "react-router"
 import { useShallow } from "zustand/react/shallow"
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const redirectTo = getSafeRedirectPath(searchParams.get("redirect"));
-  const { setToken, setUser } = useUser(useShallow((s) => {
-    return {
-      setToken: s.setToken,
-      setUser: s.setUser,
-    }
-  }))
-
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const redirectTo = getSafeRedirectPath(searchParams.get("redirect"))
+  const { setToken, setUser } = useUser(
+    useShallow((s) => {
+      return {
+        setToken: s.setToken,
+        setUser: s.setUser,
+      }
+    })
+  )
 
   const form = useForm<LoginFormSchema>({
     resolver: zodResolver(loginSchema),
@@ -34,22 +35,22 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormSchema) => {
     try {
       const response = await loginApi(data)
-      if (response.status === 'success') {
+      if (response.status === "success") {
         setToken(response.data.token)
         setUser(response.data.user)
         navigate(redirectTo, { replace: true })
       }
     } catch (error) {
-      const errorResponse = error.response?.data;
-      if (errorResponse.status === 'error') {
+      const errorResponse = error.response?.data
+      if (errorResponse.status === "error") {
         toast.add({ title: "Error", description: errorResponse.message })
       } else {
-        toast.add({ title: 'Error', description: 'Something went wrong' })
+        toast.add({ title: "Error", description: "Something went wrong" })
       }
     }
   }
   return (
-    <section className="w-full r bg-[#f5f9ff]">
+    <section className="r w-full bg-[#f5f9ff]">
       <div className="grid min-h-screen grid-cols-1 rounded-lg md:grid-cols-2">
         <div className="hidden items-center justify-center rounded-l-lg bg-[#f5f9ff] p-8 md:flex">
           <img
@@ -60,23 +61,36 @@ const LoginPage = () => {
         </div>
 
         <div className="flex items-center justify-center p-4">
-          <div className="border flex items-center justify-center p-6 w-full h-full sm:p-10 bg-white rounded-lg">
-            <div className="w-[80%] ">
-              <img src="/preproute-logo.svg" alt="PrepRoute logo" className="h-8 w-auto" />
+          <div className="flex h-full w-full items-center justify-center rounded-lg border bg-white p-6 sm:p-10">
+            <div className="w-[80%]">
+              <img
+                src="/preproute-logo.svg"
+                alt="PrepRoute logo"
+                className="h-8 w-auto"
+              />
 
-              <h1 className="mt-6 text-[1.75rem] leading-none font-medium text-[#111827]">Login</h1>
+              <h1 className="mt-6 text-[1.75rem] leading-none font-medium text-[#111827]">
+                Login
+              </h1>
               <p className="mt-3 text-[0.813rem] text-[#6b7280]">
                 Use your company provided Login credentials
               </p>
 
-              <form id="login-form" onSubmit={form.handleSubmit(onSubmit)} className="mt-8 space-y-5">
+              <form
+                id="login-form"
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="mt-8 space-y-5"
+              >
                 <div className="space-y-2">
                   <Controller
                     name="userId"
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel className="text-sm font-medium text-[#374151]" htmlFor="userId">
+                        <FieldLabel
+                          className="text-sm font-medium text-[#374151]"
+                          htmlFor="userId"
+                        >
                           User ID
                         </FieldLabel>
                         <Input
@@ -102,7 +116,10 @@ const LoginPage = () => {
                     control={form.control}
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
-                        <FieldLabel className="text-sm font-medium text-[#374151]" htmlFor="password">
+                        <FieldLabel
+                          className="text-sm font-medium text-[#374151]"
+                          htmlFor="password"
+                        >
                           Password
                         </FieldLabel>
                         <Input
@@ -122,13 +139,19 @@ const LoginPage = () => {
                   />
                 </div>
 
-                <button type="button" className="text-sm font-medium text-[#3b82f6] hover:underline">
+                <button
+                  type="button"
+                  className="text-sm font-medium text-[#3b82f6] hover:underline"
+                >
                   Forgot password?
                 </button>
-                <Button type="submit" className="h-[48px] w-full rounded-md text-sm font-medium" disabled={form.formState.isSubmitting}>
+                <Button
+                  type="submit"
+                  className="h-[48px] w-full rounded-md text-sm font-medium"
+                  disabled={form.formState.isSubmitting}
+                >
                   {form.formState.isSubmitting && <Loader size={20} />} Login
                 </Button>
-
               </form>
             </div>
           </div>

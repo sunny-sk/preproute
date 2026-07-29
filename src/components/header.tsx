@@ -25,22 +25,36 @@ const Header = () => {
         </button>
 
         <DropdownMenu>
-          <DropdownMenuTrigger >
-            <button
-              type="button"
-              className="flex items-center gap-3 cursor-pointer rounded-full bg-white py-1 pr-3 pl-1"
+          <DropdownMenuTrigger>
+            <div
+              role="button"
+              className="flex cursor-pointer items-center gap-3 rounded-full bg-white py-1 pr-3 pl-1"
             >
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[#ffd292] text-sm font-semibold text-[#27324a]">
-                <img src="/user.svg" alt="User avatar" className="h-full w-full relative top-[-5px]" />
+                <img
+                  src="/user.svg"
+                  alt="User avatar"
+                  className="relative top-[-5px] h-full w-full"
+                />
               </span>
               <div className="flex flex-row">
                 <span className="text-left">
-                  <span className="block text-base leading-none font-semibold text-[#2f3b52]">{USER_NAME}</span>
-                  <span className="block pt-1 text-xs text-[#6e7b94]">{USER_ROLE}</span>
+                  <span className="block text-base leading-none font-semibold text-[#2f3b52]">
+                    {USER_NAME}
+                  </span>
+                  <span className="block pt-1 text-xs text-[#6e7b94]">
+                    {USER_ROLE}
+                  </span>
                 </span>
-                <div className="px-4"><img src="/arrow-drop-down.svg" alt="Arrow down" className="h-4 w-4" /></div>
+                <div className="px-4">
+                  <img
+                    src="/arrow-drop-down.svg"
+                    alt="Arrow down"
+                    className="h-4 w-4"
+                  />
+                </div>
               </div>
-            </button>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuGroup>
@@ -50,7 +64,6 @@ const Header = () => {
         </DropdownMenu>
       </div>
     </header>
-
   )
 }
 

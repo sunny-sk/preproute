@@ -1,13 +1,13 @@
-import { Routes, Route, Navigate } from "react-router";
-import Login from "./pages/login";
-import NotFound from "./pages/notFound";
-import { Toaster } from "@/components/ui/toast";
-import ProtectedRoute from "@/guards/protected-route";
-import TaskLayout from "./pages/prepTests/layout";
-import TaskDashboard from "./pages/prepTests/dashboard";
-import TaskCreate from "./pages/prepTests/create";
-import TaskEdit from "./pages/prepTests/edit";
-import TaskTracking from "./pages/prepTests/tracking";
+import { Routes, Route, Navigate } from "react-router"
+import Login from "./pages/login"
+import NotFound from "./pages/notFound"
+import { Toaster } from "@/components/ui/toast"
+import ProtectedRoute from "@/guards/protected-route"
+import TaskLayout from "./pages/prepTests/layout"
+import TaskDashboard from "./pages/prepTests/dashboard"
+import TaskCreate from "./pages/prepTests/create"
+import TaskEdit from "./pages/prepTests/edit"
+import TaskTracking from "./pages/prepTests/tracking"
 
 export function App() {
   return (

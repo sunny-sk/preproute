@@ -1,8 +1,8 @@
-import { Eye, Pencil, Trash2 } from 'lucide-react'
-import StatusBadge from './status-badge'
-import type { Test } from '@/types'
-import { formatDate } from '@/utils/helper'
-import { Link } from 'react-router'
+import { Eye, Pencil, Trash2 } from "lucide-react"
+import StatusBadge from "./status-badge"
+import type { Test } from "@/types"
+import { formatDate } from "@/utils/helper"
+import { Link } from "react-router"
 
 const TRow = ({ test }: { test: Test }) => {
   return (
@@ -17,20 +17,18 @@ const TRow = ({ test }: { test: Test }) => {
       <td className="px-3 py-4">
         <StatusBadge status={test.status} />
       </td>
-      <td className="px-3 py-4 text-sm text-[#52607a]">{formatDate(test.created_at)}</td>
+      <td className="px-3 py-4 text-sm text-[#52607a]">
+        {formatDate(test.created_at)}
+      </td>
       <td className="px-3 py-4">
         <div className="flex items-center justify-end gap-1">
-          <RowAction label="View" onClick={() => {
-
-          }}>
+          <RowAction label="View" onClick={() => {}}>
             <Eye size={16} />
           </RowAction>
-          <Link to={`/task/${test.id}/edit`} >
+          <Link to={`/task/${test.id}/edit`}>
             <Pencil size={16} />
           </Link>
-          <RowAction label="Delete" variant="danger" onClick={() => {
-
-          }}>
+          <RowAction label="Delete" variant="danger" onClick={() => {}}>
             <Trash2 size={16} />
           </RowAction>
         </div>
@@ -41,7 +39,6 @@ const TRow = ({ test }: { test: Test }) => {
 
 export default TRow
 
-
 type RowActionProps = {
   label: string
   onClick: () => void
@@ -49,7 +46,12 @@ type RowActionProps = {
   children: React.ReactNode
 }
 
-const RowAction = ({ label, onClick, variant = "default", children }: RowActionProps) => {
+const RowAction = ({
+  label,
+  onClick,
+  variant = "default",
+  children,
+}: RowActionProps) => {
   const colors =
     variant === "danger"
       ? "text-[#e5646d] hover:bg-[#fdECEE]"

@@ -13,9 +13,6 @@ import TRowMob from "./components/t-row-mob"
 import TRowSkeleton from "./components/t-row-skeleton"
 import TRowMobSkeleton from "./components/t-row-mob-skeleton"
 
-
-
-
 const TaskDashboard = () => {
   const navigate = useNavigate()
 
@@ -23,8 +20,6 @@ const TaskDashboard = () => {
   const [loading, setLoading] = useState(false)
 
   const handleCreate = () => navigate("/task/create")
-
-
 
   useEffect(() => {
     const init = async () => {
@@ -80,9 +75,7 @@ const TaskDashboard = () => {
       {/* Cards (small screens) */}
       <div className="mt-6 space-y-3 md:hidden">
         {loading
-          ? Array.from({ length: 4 }).map((_, i) => (
-              <TRowMobSkeleton key={i} />
-            ))
+          ? Array.from({ length: 4 }).map((_, i) => <TRowMobSkeleton key={i} />)
           : tests.map((test) => <TRowMob key={test.id} test={test} />)}
 
         {!loading && tests.length === 0 ? (
@@ -94,9 +87,5 @@ const TaskDashboard = () => {
     </div>
   )
 }
-
-
-
-
 
 export default TaskDashboard

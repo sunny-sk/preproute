@@ -1,36 +1,36 @@
-import { Eye, Pencil, Trash2 } from 'lucide-react'
-import StatusBadge from './status-badge'
-import type { Test } from '@/types'
-import { formatDate } from '@/utils/helper'
+import { Eye, Pencil, Trash2 } from "lucide-react"
+import StatusBadge from "./status-badge"
+import type { Test } from "@/types"
+import { formatDate } from "@/utils/helper"
 
 const TRowMob = ({ test }: { test: Test }) => {
   return (
-    <div key={test.id} className="rounded-xl border border-[#eef2fb] bg-white p-4">
+    <div
+      key={test.id}
+      className="rounded-xl border border-[#eef2fb] bg-white p-4"
+    >
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-sm font-medium text-[#2f3b52]">{test.name}</p>
           <p className="mt-0.5 text-xs text-[#9aa6be]">
-            {test.subject} · {test.questions?.length} Questions · {test.total_time} min
+            {test.subject} · {test.questions?.length} Questions ·{" "}
+            {test.total_time} min
           </p>
         </div>
         <StatusBadge status={test.status} />
       </div>
       <div className="mt-4 flex items-center justify-between border-t border-[#f1f4fb] pt-3">
-        <span className="text-xs text-[#8a95ad]">Created {formatDate(test.created_at)}</span>
+        <span className="text-xs text-[#8a95ad]">
+          Created {formatDate(test.created_at)}
+        </span>
         <div className="flex items-center gap-1">
-          <RowAction label="View" onClick={() => {
-
-          }}>
+          <RowAction label="View" onClick={() => {}}>
             <Eye size={16} />
           </RowAction>
-          <RowAction label="Edit" onClick={() => {
-
-          }}>
+          <RowAction label="Edit" onClick={() => {}}>
             <Pencil size={16} />
           </RowAction>
-          <RowAction label="Delete" variant="danger" onClick={() => {
-
-          }}>
+          <RowAction label="Delete" variant="danger" onClick={() => {}}>
             <Trash2 size={16} />
           </RowAction>
         </div>
@@ -41,7 +41,6 @@ const TRowMob = ({ test }: { test: Test }) => {
 
 export default TRowMob
 
-
 type RowActionProps = {
   label: string
   onClick: () => void
@@ -49,7 +48,12 @@ type RowActionProps = {
   children: React.ReactNode
 }
 
-const RowAction = ({ label, onClick, variant = "default", children }: RowActionProps) => {
+const RowAction = ({
+  label,
+  onClick,
+  variant = "default",
+  children,
+}: RowActionProps) => {
   const colors =
     variant === "danger"
       ? "text-[#e5646d] hover:bg-[#fdECEE]"

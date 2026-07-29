@@ -16,7 +16,10 @@ type BreadcrumProps = {
 
 const Breadcrum = ({ items, className }: BreadcrumProps) => {
   return (
-    <nav aria-label="Breadcrumb" className={cn("flex items-center gap-2 text-sm", className)}>
+    <nav
+      aria-label="Breadcrumb"
+      className={cn("flex items-center gap-2 text-sm", className)}
+    >
       {items.map((item, index) => {
         const isLast = index === items.length - 1
 
@@ -32,7 +35,9 @@ const Breadcrum = ({ items, className }: BreadcrumProps) => {
             ) : (
               <span
                 aria-current={isLast ? "page" : undefined}
-                className={isLast ? "font-medium text-[#33415c]" : "text-[#8a95ad]"}
+                className={
+                  isLast ? "font-medium text-[#33415c]" : "text-[#8a95ad]"
+                }
               >
                 {item.label}
               </span>

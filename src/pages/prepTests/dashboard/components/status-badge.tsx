@@ -1,5 +1,5 @@
-import { TEST_STATUS_META } from '@/constant'
-import type { TestStatus } from '@/types'
+import { TEST_STATUS_META } from "@/constant"
+import type { TestStatus } from "@/types"
 
 const StatusBadge = ({ status }: { status: TestStatus | null }) => {
   const meta = status ? TEST_STATUS_META[status] : TEST_STATUS_META["no-status"]

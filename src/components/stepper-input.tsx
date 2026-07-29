@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronUp } from "lucide-react"
 
 type StepperInputProps = {
   id: string
@@ -9,7 +9,9 @@ const formatSigned = (value: number) => (value >= 0 ? `+${value}` : `${value}`)
 const StepperInput = ({ id, value, onChange }: StepperInputProps) => {
   return (
     <div className="flex h-12 w-[120px] items-center justify-between rounded-lg border border-[#e4e9f4] px-4">
-      <span className="text-sm font-medium text-[#33415c]">{formatSigned(value)}</span>
+      <span className="text-sm font-medium text-[#33415c]">
+        {formatSigned(value)}
+      </span>
       <div className="flex flex-col text-[#9aa6be]">
         <button
           type="button"
@@ -31,4 +33,4 @@ const StepperInput = ({ id, value, onChange }: StepperInputProps) => {
     </div>
   )
 }
-export default StepperInput;  
+export default StepperInput
