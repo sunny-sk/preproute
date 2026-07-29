@@ -94,3 +94,4 @@ export type Test = {
 }
 
 export type TestResponse = ApiResponse<Test>
+export type TestsResponse = ApiResponse<Test[]>

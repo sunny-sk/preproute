@@ -8,6 +8,7 @@ import useUser from "@/store/useUser"
 import { getSafeRedirectPath } from "@/utils/helper"
 import { loginSchema, type LoginFormSchema } from "@/validations"
 import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios"
 import { Controller, useForm } from "react-hook-form"
 import { useNavigate, useSearchParams } from "react-router"
 import { useShallow } from "zustand/react/shallow"
@@ -41,8 +42,10 @@ const LoginPage = () => {
         navigate(redirectTo, { replace: true })
       }
     } catch (error) {
-      const errorResponse = error.response?.data
-      if (errorResponse.status === "error") {
+      const errorResponse = axios.isAxiosError(error)
+        ? error.response?.data
+        : undefined
+      if (errorResponse?.status === "error") {
         toast.add({ title: "Error", description: errorResponse.message })
       } else {
         toast.add({ title: "Error", description: "Something went wrong" })

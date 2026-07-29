@@ -5,7 +5,7 @@ import { useNavigate } from "react-router"
 import Breadcrum from "@/components/breadcrum"
 import { Button } from "@/components/ui/button"
 import { getAllTestsApi } from "@/services/tests"
-import type { Test as ApiTest } from "@/types"
+import type { Test } from "@/types"
 import EmptyState from "./components/empty"
 import THead from "./components/t-head"
 import TRow from "./components/t-row"
@@ -16,7 +16,7 @@ import TRowMobSkeleton from "./components/t-row-mob-skeleton"
 const TaskDashboard = () => {
   const navigate = useNavigate()
 
-  const [tests, setTests] = useState<ApiTest[]>([])
+  const [tests, setTests] = useState<Test[]>([])
   const [loading, setLoading] = useState(false)
 
   const handleCreate = () => navigate("/task/create")
@@ -25,8 +25,9 @@ const TaskDashboard = () => {
     const init = async () => {
       setLoading(true)
       const response = await getAllTestsApi()
-      const temp: ApiTest[] = response.data
-      setTests(temp)
+      if (response.status === "success") {
+        setTests(response.data)
+      }
       setLoading(false)
     }
     init()

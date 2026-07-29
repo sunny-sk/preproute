@@ -1,5 +1,23 @@
 import { USER_AUTH_KEY } from "@/config"
 
+type ApiErrorData = {
+  status?: string
+  message?: string
+  errors?: { msg?: string }[]
+}
+
+/**
+ * Safely extracts a human-readable message from an axios-style error without
+ * assuming the error shape (keeps `catch` blocks typed as `unknown`).
+ */
+export const getApiErrorMessage = (
+  err: unknown,
+  fallback = "Something went wrong"
+) => {
+  const data = (err as { response?: { data?: ApiErrorData } })?.response?.data
+  return data?.errors?.[0]?.msg ?? data?.message ?? fallback
+}
+
 export const logout = () => {
   localStorage.removeItem(USER_AUTH_KEY)
   window.location.href = "/login"

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react"
 import {
   Select,
   SelectContent,
@@ -7,10 +7,10 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Skeleton } from "@/components/ui/skeleton"
-import type { TopicResponse } from '@/types'
-import { getTopicsApi } from '@/services/tests'
-import type { FieldErrors } from 'react-hook-form'
-import { Field, FieldLabel, FieldError } from './ui/field'
+import type { TopicResponse } from "@/types"
+import { getTopicsApi } from "@/services/tests"
+import type { FieldErrors } from "react-hook-form"
+import { Field, FieldLabel, FieldError } from "./ui/field"
 
 interface TopicProps {
   labelClass: string
@@ -22,12 +22,23 @@ interface TopicProps {
   errors?: FieldErrors<{ topicId: string[] }>
 }
 
-const Topic = ({ labelClass, controlClass, onChange = () => { }, value = [], subjectId = null, dataInvalid, errors, ...props }: TopicProps) => {
-  const [topics, setTopics] = useState<TopicResponse["data"]>([]);
-  const [loading, setLoading] = useState(false);
+const Topic = ({
+  labelClass,
+  controlClass,
+  onChange = () => { },
+  value = [],
+  subjectId = null,
+  dataInvalid,
+  errors,
+}: TopicProps) => {
+  const [topics, setTopics] = useState<TopicResponse["data"]>([])
+  const [loading, setLoading] = useState(false)
 
   const init = async () => {
-    if (!subjectId) return;
+    if (!subjectId) {
+      setLoading(false)
+      return;
+    }
     setLoading(true)
     const response = await getTopicsApi(subjectId as string)
     if (response.status === "success") {
@@ -41,15 +52,23 @@ const Topic = ({ labelClass, controlClass, onChange = () => { }, value = [], sub
   }, [subjectId])
 
   return (
-    <Field data-invalid={dataInvalid} >
+    <Field data-invalid={dataInvalid}>
       <FieldLabel htmlFor="topic" className={labelClass}>
         Topic
       </FieldLabel>
       {loading ? (
         <Skeleton className={controlClass} />
       ) : (
-        <Select multiple value={value} onValueChange={(topicIds: string[]) => onChange(topicIds)}>
-          <SelectTrigger id="topic" className={controlClass} aria-invalid={dataInvalid}>
+        <Select
+          multiple
+          value={value}
+          onValueChange={(topicIds: string[]) => onChange(topicIds)}
+        >
+          <SelectTrigger
+            id="topic"
+            className={controlClass}
+            aria-invalid={dataInvalid}
+          >
             <SelectValue placeholder="Choose from Drop-down">
               {(selected: string[]) =>
                 selected.length
@@ -70,9 +89,7 @@ const Topic = ({ labelClass, controlClass, onChange = () => { }, value = [], sub
           </SelectContent>
         </Select>
       )}
-      {errors?.topicId && (
-        <FieldError errors={[errors.topicId]} />
-      )}
+      {errors?.topicId && <FieldError errors={[errors.topicId]} />}
     </Field>
   )
 }
