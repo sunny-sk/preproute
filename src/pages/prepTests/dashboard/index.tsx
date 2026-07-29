@@ -1,25 +1,35 @@
 import { Plus } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router"
 
 import Breadcrum from "@/components/breadcrum"
 import { Button } from "@/components/ui/button"
+import { TEST_STATUS_META } from "@/constant"
 import { getAllTestsApi } from "@/services/tests"
 import type { Test } from "@/types"
 import EmptyState from "./components/empty"
+import TFilters, { ALL_STATUSES } from "./components/t-filters"
 import THead from "./components/t-head"
 import TRow from "./components/t-row"
 import TRowMob from "./components/t-row-mob"
 import TRowSkeleton from "./components/t-row-skeleton"
 import TRowMobSkeleton from "./components/t-row-mob-skeleton"
 
+const statusLabel = (test: Test) =>
+  TEST_STATUS_META[test.status ?? "no-status"].label
+
 const TaskDashboard = () => {
   const navigate = useNavigate()
 
   const [tests, setTests] = useState<Test[]>([])
   const [loading, setLoading] = useState(false)
+  const [search, setSearch] = useState("")
+  const [status, setStatus] = useState<string>(ALL_STATUSES)
 
   const handleCreate = () => navigate("/test/create")
+
+  const handleDeleted = (id: string) =>
+    setTests((prev) => prev.filter((test) => test.id !== id))
 
   useEffect(() => {
     const init = async () => {
@@ -32,6 +42,29 @@ const TaskDashboard = () => {
     }
     init()
   }, [])
+
+  // Distinct status labels present in the loaded tests, used as filter options.
+  const statusOptions = useMemo(() => {
+    const labels = new Set<string>()
+    tests.forEach((test) => labels.add(statusLabel(test)))
+    return Array.from(labels)
+  }, [tests])
+
+  const filteredTests = useMemo(() => {
+    const query = search.trim().toLowerCase()
+    return tests.filter((test) => {
+      const matchesSearch =
+        !query ||
+        test.name.toLowerCase().includes(query) ||
+        test.subject.toLowerCase().includes(query)
+      const matchesStatus =
+        status === ALL_STATUSES || statusLabel(test) === status
+      return matchesSearch && matchesStatus
+    })
+  }, [tests, search, status])
+
+  const hasFilters = search.trim() !== "" || status !== ALL_STATUSES
+  const isEmpty = !loading && filteredTests.length === 0
 
   return (
     <div className="border-[#eef2fb] bg-white p-8">
@@ -55,6 +88,15 @@ const TaskDashboard = () => {
         </Button>
       </div>
 
+      {/* Filters */}
+      <TFilters
+        search={search}
+        onSearchChange={setSearch}
+        status={status}
+        onStatusChange={setStatus}
+        statusOptions={statusOptions}
+      />
+
       {/* Table (md and up) */}
       <div className="mt-6 hidden overflow-hidden rounded-xl border border-[#eef2fb] bg-white md:block">
         <div className="overflow-x-auto">
@@ -65,23 +107,47 @@ const TaskDashboard = () => {
                 ? Array.from({ length: 6 }).map((_, i) => (
                     <TRowSkeleton key={i} />
                   ))
-                : tests.map((test) => <TRow key={test.id} test={test} />)}
+                : filteredTests.map((test) => (
+                    <TRow
+                      key={test.id}
+                      test={test}
+                      onDeleted={handleDeleted}
+                    />
+                  ))}
             </tbody>
           </table>
         </div>
 
-        {/* {tests.length === 0 ? <EmptyState onCreate={handleCreate} /> : null} */}
+        {isEmpty ? (
+          <EmptyState
+            title={hasFilters ? "No matching tests" : "No tests yet"}
+            description={
+              hasFilters
+                ? "Try adjusting your search or status filter."
+                : "Create your first test to get started."
+            }
+          />
+        ) : null}
       </div>
 
       {/* Cards (small screens) */}
       <div className="mt-6 space-y-3 md:hidden">
         {loading
           ? Array.from({ length: 4 }).map((_, i) => <TRowMobSkeleton key={i} />)
-          : tests.map((test) => <TRowMob key={test.id} test={test} />)}
+          : filteredTests.map((test) => (
+              <TRowMob key={test.id} test={test} onDeleted={handleDeleted} />
+            ))}
 
-        {!loading && tests.length === 0 ? (
+        {isEmpty ? (
           <div className="rounded-xl border border-[#eef2fb] bg-white">
-            <EmptyState />
+            <EmptyState
+              title={hasFilters ? "No matching tests" : "No tests yet"}
+              description={
+                hasFilters
+                  ? "Try adjusting your search or status filter."
+                  : "Create your first test to get started."
+              }
+            />
           </div>
         ) : null}
       </div>

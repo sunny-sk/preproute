@@ -1,9 +1,15 @@
-import { Eye, Pencil, Trash2 } from "lucide-react"
+import { Eye, Pencil } from "lucide-react"
 import StatusBadge from "./status-badge"
+import DeleteTestButton from "./delete-test-button"
 import type { Test } from "@/types"
 import { formatDate } from "@/utils/helper"
 
-const TRowMob = ({ test }: { test: Test }) => {
+type TRowMobProps = {
+  test: Test
+  onDeleted: (id: string) => void
+}
+
+const TRowMob = ({ test, onDeleted }: TRowMobProps) => {
   return (
     <div
       key={test.id}
@@ -30,9 +36,7 @@ const TRowMob = ({ test }: { test: Test }) => {
           <RowAction label="Edit" onClick={() => {}}>
             <Pencil size={16} />
           </RowAction>
-          <RowAction label="Delete" variant="danger" onClick={() => {}}>
-            <Trash2 size={16} />
-          </RowAction>
+          <DeleteTestButton test={test} onDeleted={onDeleted} />
         </div>
       </div>
     </div>

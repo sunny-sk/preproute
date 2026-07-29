@@ -1,10 +1,16 @@
-import { Eye, Pencil, Trash2 } from "lucide-react"
+import { Eye, Pencil } from "lucide-react"
 import StatusBadge from "./status-badge"
+import DeleteTestButton from "./delete-test-button"
 import type { Test } from "@/types"
 import { formatDate } from "@/utils/helper"
 import { Link } from "react-router"
 
-const TRow = ({ test }: { test: Test }) => {
+type TRowProps = {
+  test: Test
+  onDeleted: (id: string) => void
+}
+
+const TRow = ({ test, onDeleted }: TRowProps) => {
   return (
     <tr key={test.id} className="transition-colors hover:bg-[#fafbff]">
       <td className="px-3 py-4">
@@ -25,12 +31,10 @@ const TRow = ({ test }: { test: Test }) => {
           <RowAction label="View" onClick={() => {}}>
             <Eye size={16} />
           </RowAction>
-          <Link to={`/task/${test.id}/edit`}>
+          <Link to={`/test/${test.id}/edit`}>
             <Pencil size={16} />
           </Link>
-          <RowAction label="Delete" variant="danger" onClick={() => {}}>
-            <Trash2 size={16} />
-          </RowAction>
+          <DeleteTestButton test={test} onDeleted={onDeleted} />
         </div>
       </td>
     </tr>

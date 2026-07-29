@@ -94,6 +94,18 @@ export const updateTestById = async (id: string, data: CreateTestPayload) => {
   return response.data
 }
 
+export const deleteTestApi = async (id: string) => {
+  const response = await api.delete<TestResponse>(
+    URLS.DELETE_TEST.replace(":id", id),
+    {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }
+  )
+  return response.data
+}
+
 export const publishTestApi = async (id: string) => {
   const response = await api.put<TestResponse>(
     URLS.UPDATE_TEST.replace(":id", id),

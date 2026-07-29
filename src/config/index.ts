@@ -12,6 +12,7 @@ export const URLS = {
   CREATE_TEST: `/tests`,
   GET_TEST_BY_ID: `/tests/:id`,
   UPDATE_TEST: `/tests/:id`,
+  DELETE_TEST: `/tests/:id`,
 }
 
 export const USER_AUTH_KEY =
